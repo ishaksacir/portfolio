@@ -1,4 +1,4 @@
-# 🌐 Ishak Portfolio
+# 🌐 Portfolio
 
 A minimal, dark-first personal portfolio built with **React** and **SCSS**.  
 The website showcases my projects, skills, and experience in a clean and modern interface.
