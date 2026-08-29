@@ -1,0 +1,32 @@
+.root {
+  overflow: visible;
+}
+
+.text {
+  display: inline-block;
+}
+
+.line {
+  display: block;
+  white-space: nowrap;
+}
+
+.char {
+  display: inline-block;
+}
+
+.line:last-child .char {
+  color: var(--accent);
+  font-family: var(--serif);
+  font-size: 1.08em;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .char {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
