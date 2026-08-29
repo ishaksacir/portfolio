@@ -1,174 +1,52 @@
-# Portfolio App - Modern Editorial Design System
+# Ishak Šačirbey — Portfolio
 
-A professional React portfolio built with a cutting-edge design system featuring:
-- 🎨 Modern editorial design with technical/futuristic edge
-- 🌙 Full dark mode support with system preference detection
-- 📱 Responsive design that works on all devices
-- ⚡ Built with Vite for blazing-fast development
-- 🎯 TypeScript for type-safe code
-- 🎭 Accessible semantic components
+A comic-book-styled personal portfolio and case-study site, built with React, TypeScript and Vite.
 
-## 🚀 Quick Start
+## Getting started
 
-### Prerequisites
-- Node.js 16+
-- npm or yarn
-
-### Installation
 ```bash
 npm install
+npm run dev      # start the dev server
+npm run build    # type-check and build for production
+npm run preview  # preview the production build
+npm run lint      # run oxlint
 ```
 
-### Development
-```bash
-npm run dev
-```
-
-Open [http://localhost:5175](http://localhost:5175) to view it in the browser.
-
-### Build
-```bash
-npm run build
-```
-
-## 📖 Documentation
-
-See [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) for complete documentation of the design system, components, and customization guide.
-
-## 🎨 Design System Highlights
-
-### Typography
-- **Chakra Petch** - Bold, modern headings
-- **Sora** - Clean, accessible body text
-- **Space Mono** - Technical accents and labels
-
-### Color Palette
-- Single accent color (#E8491D light / #FF7A3D dark)
-- Carefully balanced neutral colors
-- Full light and dark mode support
-
-### Principles
-- Flat design (no gradients, shadows, or neon)
-- Generous whitespace
-- Hairline borders for separation
-- Purposeful use of monospace typography
-
-## 🛠️ Tech Stack
-
-- **React 19** - UI library
-- **TypeScript** - Type safety
-- **Vite** - Fast build tool
-- **CSS Modules** - Component-scoped styling
-- **CSS Variables** - Design token system
-
-## 📁 Project Structure
+## Project structure
 
 ```
 src/
-├── components/       # Reusable UI components
-├── context/         # React context (theme)
-├── pages/           # Page components
-├── styles/          # Global styles & tokens
-├── App.tsx          # Root component
-└── main.tsx         # Entry point
+├── assets/            images used across the site
+├── components/
+│   ├── common/         small shared UI (Kicker, ActionButton)
+│   ├── layout/          Header, Footer — rendered once by App, outside the pages
+│   ├── shop/             ShopCard — used by the Home preview and the Work shop grid
+│   ├── blog/             BrainPost — used by the Home preview and the Journal feed
+│   └── RetroScrollbar/  custom scrollbar, self-contained
+├── pages/              one folder per route (Home, Work, About, Experience, Process, Journal, Contact)
+│   └── Home/sections/   Home is composed from independent section components
+├── data/               content as typed arrays/objects (projects, socials, nav, blog posts, ...)
+├── hooks/               useHashRoute — the routing hook
+├── routes/               route table: page ids → page components
+├── utils/               small cross-page helpers (e.g. the Work project handoff)
+├── styles/              global.css — the entire visual design, as plain CSS
+├── App.tsx              shell: Header + current page + Footer
+└── main.tsx             entry point
 ```
 
-## 🎯 Features
+## Routing
 
-- ✅ Responsive grid layouts
-- ✅ Dark/light mode toggle
-- ✅ Accessible button variants
-- ✅ Card-based content layout
-- ✅ Hero section
-- ✅ Project showcase grid
-- ✅ Contact section
-- ✅ Sticky header navigation
-- ✅ Mobile-optimized
+Routing is a small custom hook (`src/hooks/useHashRoute.ts`) over `location.hash` — there's no router
+dependency. `src/routes/routes.ts` maps each page id (`home`, `work`, `about`, `experience`, `process`,
+`journal`, `contact`) to its page component; `App.tsx` renders whichever one matches the current hash.
 
-## 📱 Pages
+## Content
 
-### Home
-- Hero section with headline and CTA
-- Featured work/projects grid
-- About section
-- Contact call-to-action
-- Footer with social links
+Anything that repeats (projects, social links, blog posts, timeline entries, pricing, ...) lives in
+`src/data/` as typed data, rendered with `.map()`. Copy that only belongs to one place in the UI stays
+inline in its component.
 
-## 🎮 Usage Example
+## Design
 
-```tsx
-import { Container, Heading, Text, Button, Card, Badge } from './components';
-
-export function MyComponent() {
-  return (
-    <Container maxWidth="lg">
-      <Heading level={1}>Welcome</Heading>
-      <Text variant="secondary">Subtitle text</Text>
-      
-      <Card>
-        <Badge>Featured</Badge>
-        <Heading level={3}>Project Title</Heading>
-        <Text>Project description...</Text>
-        <Button variant="primary">Learn More</Button>
-      </Card>
-    </Container>
-  );
-}
-```
-
-## 🌙 Dark Mode
-
-Dark mode is automatically enabled based on system preferences and can be toggled using the theme switcher in the header. User preference is saved to localStorage.
-
-## 📚 Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run linter
-
-## 🤝 Component API
-
-### Button
-```tsx
-<Button 
-  variant="primary" | "secondary" | "ghost"
-  size="sm" | "md" | "lg"
-  onClick={handler}
->
-  Click me
-</Button>
-```
-
-### Heading
-```tsx
-<Heading level={1 | 2 | 3 | 4}>Title</Heading>
-```
-
-### Text
-```tsx
-<Text variant="primary" | "secondary" | "accent">
-  Text content
-</Text>
-```
-
-### Badge
-```tsx
-<Badge>Label</Badge>
-```
-
-### Card
-```tsx
-<Card>Content</Card>
-```
-
-### Container
-```tsx
-<Container maxWidth="sm" | "md" | "lg" | "xl" | "full">
-  Content
-</Container>
-```
-
-## 📝 License
-
-This project is open source.
+See [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) for the color palette, type scale and the visual language the
+site is built on.

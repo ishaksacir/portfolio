@@ -1,4 +1,0 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap');
-.title{font-family:'Roboto Flex',var(--display);font-weight:600;user-select:none}.line{display:block;white-space:nowrap}.line:nth-child(2){margin-left:14vw!important}.line>span{display:inline-block;will-change:font-variation-settings}.dot{color:var(--accent)}
-@media(max-width:760px){.line:nth-child(2){margin-left:0!important}}
-@media(prefers-reduced-motion:reduce){.line>span{font-variation-settings:'wdth' 100,'wght' 600!important}}

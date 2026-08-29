@@ -1,19 +1,114 @@
-@media (min-width:769px) and (pointer:fine){
-  html{scrollbar-width:none}
-  html::-webkit-scrollbar,body::-webkit-scrollbar{width:0;height:0;display:none}
-  body{padding-right:18px}
-  .retro-scrollbar{--scroll-face:#e6dec8;--scroll-highlight:#f7f1df;--scroll-shadow:#6f6759;--scroll-ink:#2b2924;position:fixed;z-index:100;top:0;right:0;width:18px;height:100dvh;display:grid;grid-template-rows:18px minmax(0,1fr) 18px;background:var(--scroll-face);border-left:2px solid var(--scroll-ink);color:var(--scroll-ink);user-select:none}
-  .retro-scrollbar__arrow{width:16px;height:18px;padding:0;display:grid;place-items:center;border:0;border-bottom:2px solid var(--scroll-ink);border-radius:0;background:var(--scroll-face);color:var(--scroll-ink);box-shadow:inset 2px 2px 0 var(--scroll-highlight),inset -2px -2px 0 var(--scroll-shadow);font:700 8px/1 'JetBrains Mono',monospace}
-  .retro-scrollbar__arrow:last-child{border-top:2px solid var(--scroll-ink);border-bottom:0}
-  .retro-scrollbar__arrow:hover{background:#d8cfb8}
-  .retro-scrollbar__arrow:active{padding:2px 0 0 2px;background:var(--scroll-face);box-shadow:inset 2px 2px 0 var(--scroll-shadow),inset -2px -2px 0 var(--scroll-highlight)}
-  .retro-scrollbar__track{position:relative;min-height:0;background-color:#f7f0de;background-image:radial-gradient(rgba(43,41,36,.18) .65px,transparent .8px);background-size:5px 5px;box-shadow:inset 2px 0 0 var(--scroll-shadow);touch-action:none}
-  .retro-scrollbar__thumb{position:absolute;top:0;left:1px;width:13px;min-height:36px;border:2px solid var(--scroll-ink);border-radius:0;background:var(--scroll-face);box-shadow:inset 2px 2px 0 var(--scroll-highlight),inset -2px -2px 0 var(--scroll-shadow);cursor:grab;will-change:transform;touch-action:none}
-  .retro-scrollbar__thumb:hover{background:#ddd4be}
-  .retro-scrollbar__thumb:active{cursor:grabbing;background:#d8cfb8;box-shadow:inset 2px 2px 0 var(--scroll-shadow),inset -2px -2px 0 var(--scroll-highlight)}
-  .retro-scroll-dragging{user-select:none!important;cursor:grabbing!important}
+@media (min-width: 769px) and (pointer: fine) {
+  html {
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  body {
+    padding-right: 18px;
+  }
+  .retro-scrollbar {
+    --scroll-face: #e6dec8;
+    --scroll-highlight: #f7f1df;
+    --scroll-shadow: #6f6759;
+    --scroll-ink: #2b2924;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    width: 18px;
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: 18px minmax(0, 1fr) 18px;
+    background: var(--scroll-face);
+    border-left: 2px solid var(--scroll-ink);
+    color: var(--scroll-ink);
+    user-select: none;
+  }
+  .retro-scrollbar__arrow {
+    width: 16px;
+    height: 18px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-bottom: 2px solid var(--scroll-ink);
+    border-radius: 0;
+    background: var(--scroll-face);
+    color: var(--scroll-ink);
+    box-shadow:
+      inset 2px 2px 0 var(--scroll-highlight),
+      inset -2px -2px 0 var(--scroll-shadow);
+    font:
+      700 8px/1 "JetBrains Mono",
+      monospace;
+  }
+  .retro-scrollbar__arrow:last-child {
+    border-top: 2px solid var(--scroll-ink);
+    border-bottom: 0;
+  }
+  .retro-scrollbar__arrow:hover {
+    background: #d8cfb8;
+  }
+  .retro-scrollbar__arrow:active {
+    padding: 2px 0 0 2px;
+    background: var(--scroll-face);
+    box-shadow:
+      inset 2px 2px 0 var(--scroll-shadow),
+      inset -2px -2px 0 var(--scroll-highlight);
+  }
+  .retro-scrollbar__track {
+    position: relative;
+    min-height: 0;
+    background-color: #f7f0de;
+    background-image: radial-gradient(
+      rgba(43, 41, 36, 0.18) 0.65px,
+      transparent 0.8px
+    );
+    background-size: 5px 5px;
+    box-shadow: inset 2px 0 0 var(--scroll-shadow);
+    touch-action: none;
+  }
+  .retro-scrollbar__thumb {
+    position: absolute;
+    top: 0;
+    left: 1px;
+    width: 13px;
+    min-height: 36px;
+    border: 2px solid var(--scroll-ink);
+    border-radius: 0;
+    background: var(--scroll-face);
+    box-shadow:
+      inset 2px 2px 0 var(--scroll-highlight),
+      inset -2px -2px 0 var(--scroll-shadow);
+    cursor: grab;
+    will-change: transform;
+    touch-action: none;
+  }
+  .retro-scrollbar__thumb:hover {
+    background: #ddd4be;
+  }
+  .retro-scrollbar__thumb:active {
+    cursor: grabbing;
+    background: #d8cfb8;
+    box-shadow:
+      inset 2px 2px 0 var(--scroll-shadow),
+      inset -2px -2px 0 var(--scroll-highlight);
+  }
+  .retro-scroll-dragging {
+    user-select: none !important;
+    cursor: grabbing !important;
+  }
 }
-@media (max-width:768px),(pointer:coarse){
-  .retro-scrollbar{display:none}
-  body{padding-right:0}
+@media (max-width: 768px), (pointer: coarse) {
+  .retro-scrollbar {
+    display: none;
+  }
+  body {
+    padding-right: 0;
+  }
 }
