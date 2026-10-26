@@ -6,7 +6,16 @@ import { useCallback, type ComponentPropsWithoutRef, type ElementType } from "re
  * Firefox can't use url() there, so they keep the frosted `.glass` fallback.
  */
 
-const O = { borderWidth: 0.07, brightness: 50, opacity: 0.93, blur: 11, displace: 0.4, distortionScale: -64, offsets: [0, 2, 4], mixBlendMode: "difference" };
+const O = {
+  borderWidth: 0.07,
+  brightness: 50,
+  opacity: 0.93,
+  blur: 11,
+  displace: 0.4,
+  distortionScale: -64,
+  offsets: [0, 2, 4],
+  mixBlendMode: "difference",
+};
 const NS = "http://www.w3.org/2000/svg";
 
 const SVG_OK = (() => {
@@ -52,15 +61,34 @@ function attach(el: HTMLElement) {
     return undefined;
   }
   const id = "lg" + ++count;
-  const f = mk("filter", { id, "color-interpolation-filters": "sRGB", x: "0%", y: "0%", width: "100%", height: "100%" }, getDefs());
-  const img = mk("feImage", { x: 0, y: 0, width: "100%", height: "100%", preserveAspectRatio: "none", result: "map" }, f);
+  const f = mk(
+    "filter",
+    { id, "color-interpolation-filters": "sRGB", x: "0%", y: "0%", width: "100%", height: "100%" },
+    getDefs(),
+  );
+  const img = mk(
+    "feImage",
+    { x: 0, y: 0, width: "100%", height: "100%", preserveAspectRatio: "none", result: "map" },
+    f,
+  );
   const channels: [string, string][] = [
     ["red", "1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"],
     ["green", "0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0"],
     ["blue", "0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0"],
   ];
   channels.forEach(([c, m], i) => {
-    mk("feDisplacementMap", { in: "SourceGraphic", in2: "map", result: "d" + c, scale: O.distortionScale + O.offsets[i], xChannelSelector: "R", yChannelSelector: "G" }, f);
+    mk(
+      "feDisplacementMap",
+      {
+        in: "SourceGraphic",
+        in2: "map",
+        result: "d" + c,
+        scale: O.distortionScale + O.offsets[i],
+        xChannelSelector: "R",
+        yChannelSelector: "G",
+      },
+      f,
+    );
     mk("feColorMatrix", { in: "d" + c, type: "matrix", values: m, result: c }, f);
   });
   mk("feBlend", { in: "red", in2: "green", mode: "screen", result: "rg" }, f);
@@ -69,7 +97,8 @@ function attach(el: HTMLElement) {
 
   const update = () => {
     // Layout size, not getBoundingClientRect, so page zoom doesn't stretch the map.
-    const w = el.offsetWidth, h = el.offsetHeight;
+    const w = el.offsetWidth,
+      h = el.offsetHeight;
     if (!w || !h) return;
     const rad = Math.min(parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0, h / 2, w / 2);
     img.setAttribute("href", displacementMap(w, h, rad, id));

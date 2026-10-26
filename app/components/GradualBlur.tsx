@@ -55,8 +55,10 @@ export function GradualBlur({ height = "6rem", strength = 2, divCount = 5, expon
       const i = k + 1;
       const p = smoothstep(i / divCount);
       const blur = exponential ? Math.pow(2, p * 4) * 0.0625 * strength : 0.0625 * (p * divCount + 1) * strength;
-      const p1 = Math.round((inc * i - inc) * 10) / 10, p2 = Math.round(inc * i * 10) / 10;
-      const p3 = Math.round((inc * i + inc) * 10) / 10, p4 = Math.round((inc * i + inc * 2) * 10) / 10;
+      const p1 = Math.round((inc * i - inc) * 10) / 10,
+        p2 = Math.round(inc * i * 10) / 10;
+      const p3 = Math.round((inc * i + inc) * 10) / 10,
+        p4 = Math.round((inc * i + inc * 2) * 10) / 10;
       let g = `transparent ${p1}%, black ${p2}%`;
       if (p3 <= 100) g += `, black ${p3}%`;
       if (p4 <= 100) g += `, transparent ${p4}%`;
@@ -65,7 +67,10 @@ export function GradualBlur({ height = "6rem", strength = 2, divCount = 5, expon
   }, [divCount, exponential, strength]);
 
   return (
-    <div aria-hidden="true" style={{ position: "fixed", left: 0, right: 0, bottom: 0, height, zIndex, pointerEvents: "none" }}>
+    <div
+      aria-hidden="true"
+      style={{ position: "fixed", left: 0, right: 0, bottom: 0, height, zIndex, pointerEvents: "none" }}
+    >
       {layers.map((l, i) => (
         <div
           key={i}

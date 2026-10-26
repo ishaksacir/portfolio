@@ -1,103 +1,258 @@
 /* ─── Fonts (self-hosted from /public/fonts) ─────────────────────────── */
-@font-face { font-family: 'Jersey 10'; src: url('/fonts/Jersey10-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
-@font-face { font-family: 'Clash Display'; src: url('/fonts/ClashDisplay-Semibold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
-@font-face { font-family: 'Clash Display'; src: url('/fonts/ClashDisplay-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
-@font-face { font-family: 'Clash Grotesk'; src: url('/fonts/ClashGrotesk-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
-@font-face { font-family: 'Clash Grotesk'; src: url('/fonts/ClashGrotesk-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
-@font-face { font-family: 'JetBrains Mono'; src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
-@font-face { font-family: 'JetBrains Mono'; src: url('/fonts/JetBrainsMono-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face {
+  font-family: "Jersey 10";
+  src: url("/fonts/Jersey10-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Clash Grotesk";
+  src: url("/fonts/ClashGrotesk-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Clash Grotesk";
+  src: url("/fonts/ClashGrotesk-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
 
 /* ─── Tokens (base theme) ─────────────────────────────────────────────
-   Project pages override these on :root (see app/content/themes.ts);
+   Project pages override these on :root (see THEMES in app/content/projects.ts);
    .theme-base re-declares them so the footer always stays light. */
 :root,
 .theme-base {
-  --bg-primary: #EEF1F4; --bg-secondary: #E5E9EE; --surface: #F8FAFC; --surface-muted: #EEF1F4;
-  --text-primary: #111418; --text-secondary: #626971; --text-muted: #9299A1; --text-link: #3D4248;
-  --border: #D5DADF; --border-strong: #B9C0C7;
-  --accent: #5B7DBF; --accent-dark: #3E5A8C; --accent-light: #AEBED8;
-  --pill-bg: rgba(255,255,255,.52); --pill-hi: rgba(255,255,255,.6); --hover-bg: #E7ECF2;
+  --bg-primary: #eef1f4;
+  --bg-secondary: #e5e9ee;
+  --surface: #f8fafc;
+  --surface-muted: #eef1f4;
+  --text-primary: #111418;
+  --text-secondary: #626971;
+  --text-muted: #9299a1;
+  --text-link: #3d4248;
+  --border: #d5dadf;
+  --border-strong: #b9c0c7;
+  --accent: #5b7dbf;
+  --accent-dark: #3e5a8c;
+  --accent-light: #aebed8;
+  --pill-bg: rgba(255, 255, 255, 0.52);
+  --pill-hi: rgba(255, 255, 255, 0.6);
+  --hover-bg: #e7ecf2;
   --lg-bg: initial;
 }
-.theme-base { background: var(--bg-primary); color: var(--text-primary); }
+.theme-base {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
 
 :root {
-  --amber: #D19A3D; --green: #68785A; --teal: #5A7F7A; --red: #B85C4A;
-  --shadow-sm: 0 3px 8px rgba(30,35,40,.08); --shadow-md: 0 8px 24px rgba(30,35,40,.10);
-  --tape: rgba(232,226,210,.78); --photo-frame: #F4F5F2;
-  --name-font: 'Jersey 10', monospace;
-  --f-pixel: 'Jersey 10', monospace;
-  --f-body: 'Clash Grotesk', sans-serif;
-  --f-mono: 'JetBrains Mono', monospace;
-  --f-hand: 'Nanum Pen Script', cursive;
-  --f-sys: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
-  --rules: repeating-linear-gradient(180deg, transparent 0 35px, rgba(201,208,215,.55) 35px 36px),
-           linear-gradient(90deg, transparent calc(6% - 1px), rgba(201,141,134,.38) calc(6% - 1px) 6%, transparent 6%);
-  --ease: cubic-bezier(.2,.8,.2,1);
+  --amber: #d19a3d;
+  --green: #68785a;
+  --teal: #5a7f7a;
+  --red: #b85c4a;
+  --shadow-sm: 0 3px 8px rgba(30, 35, 40, 0.08);
+  --shadow-md: 0 8px 24px rgba(30, 35, 40, 0.1);
+  --tape: rgba(232, 226, 210, 0.78);
+  --photo-frame: #f4f5f2;
+  --name-font: "Jersey 10", monospace;
+  --f-pixel: "Jersey 10", monospace;
+  --f-body: "Clash Grotesk", sans-serif;
+  --f-mono: "JetBrains Mono", monospace;
+  --f-hand: "Nanum Pen Script", cursive;
+  --f-sys: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+  --rules:
+    repeating-linear-gradient(180deg, transparent 0 35px, rgba(201, 208, 215, 0.55) 35px 36px),
+    linear-gradient(90deg, transparent calc(6% - 1px), rgba(201, 141, 134, 0.38) calc(6% - 1px) 6%, transparent 6%);
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 /* ─── Base ───────────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
 /* Sizes use cqw (not vw) against #root so they stay right when index.html zooms the page to fit wide screens. */
-#root { container-type: inline-size; }
+#root {
+  container-type: inline-size;
+}
 body {
-  margin: 0; background: var(--bg-primary); color: var(--text-primary);
-  font-family: var(--f-body); -webkit-font-smoothing: antialiased; text-wrap: pretty;
+  margin: 0;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--f-body);
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
 }
 /* paper grain */
 body::after {
-  content: ""; position: fixed; inset: 0; z-index: 60; pointer-events: none; mix-blend-mode: multiply; opacity: .28;
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.28;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.5'/></svg>");
 }
-img { max-width: 100%; }
-a { color: var(--accent); text-decoration: none; text-underline-offset: 3px; }
-a:hover { color: var(--accent-dark); text-decoration: underline; }
-::selection { background: var(--accent-light); color: var(--text-primary); }
-button { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+img {
+  max-width: 100%;
+}
+a {
+  color: var(--accent);
+  text-decoration: none;
+  text-underline-offset: 3px;
+}
+a:hover {
+  color: var(--accent-dark);
+  text-decoration: underline;
+}
+::selection {
+  background: var(--accent-light);
+  color: var(--text-primary);
+}
+button {
+  font: inherit;
+  color: inherit;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
-.page { width: 100%; min-height: calc(100vh / var(--z, 1)); background: var(--bg-primary); overflow-x: clip; position: relative; }
-.ruled { background-image: var(--rules); }
+.page {
+  width: 100%;
+  min-height: calc(100vh / var(--z, 1));
+  background: var(--bg-primary);
+  overflow-x: clip;
+  position: relative;
+}
+.ruled {
+  background-image: var(--rules);
+}
 
 /* ─── Keyframes ──────────────────────────────────────────────────────── */
-@keyframes om-blink { 0%, 49% { opacity: 1 } 50%, 100% { opacity: 0 } }
-@keyframes om-ants { to { background-position: 14px 0, -14px 100%, 0 -14px, 100% 14px } }
-@keyframes om-breathe {
-  0%, 100% { transform: translateY(0) rotate(var(--r)) scale(1) }
-  50% { transform: translateY(-8px) rotate(calc(var(--r) + 1.5deg)) scale(1.035) }
+@keyframes om-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
 }
-@keyframes om-notify-in { from { opacity: 0; transform: translateY(-10px) scale(.97) } to { opacity: 1; transform: none } }
-@keyframes om-bob { 0%, 100% { transform: translateY(0) rotate(var(--r)) } 50% { transform: translateY(-6px) rotate(var(--r)) } }
+@keyframes om-ants {
+  to {
+    background-position:
+      14px 0,
+      -14px 100%,
+      0 -14px,
+      100% 14px;
+  }
+}
+@keyframes om-breathe {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r)) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) rotate(calc(var(--r) + 1.5deg)) scale(1.035);
+  }
+}
+@keyframes om-notify-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes om-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r));
+  }
+  50% {
+    transform: translateY(-6px) rotate(var(--r));
+  }
+}
 
-.breathe { transform: rotate(var(--r)); animation: om-breathe var(--dur, 6s) ease-in-out var(--delay, 0s) infinite; }
-.blink { animation: om-blink 1s steps(1) infinite; }
+.breathe {
+  transform: rotate(var(--r));
+  animation: om-breathe var(--dur, 6s) ease-in-out var(--delay, 0s) infinite;
+}
+.blink {
+  animation: om-blink 1s steps(1) infinite;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .breathe, .blink, .notify { animation: none !important; }
-  *, *::before, *::after { transition-duration: .01ms !important; }
+  html {
+    scroll-behavior: auto;
+  }
+  .breathe,
+  .blink,
+  .notify {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ─── Liquid glass (see components/Glass.tsx) ───────────────────────────
    Default = frosted fallback (Safari / Firefox, and before the SVG filter
    is attached). Chromium upgrades to data-lg="svg". */
 .glass {
-  background: var(--lg-bg, linear-gradient(180deg, rgba(252,253,254,.78), rgba(245,248,251,.68)));
+  background: var(--lg-bg, linear-gradient(180deg, rgba(252, 253, 254, 0.78), rgba(245, 248, 251, 0.68)));
   -webkit-backdrop-filter: blur(18px) saturate(1.7) brightness(1.04);
   backdrop-filter: blur(18px) saturate(1.7) brightness(1.04);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.45), inset 0 0 0 .5px rgba(20,25,30,.10),
-              0 1px 2px rgba(17,17,26,.06), 0 8px 24px rgba(17,17,26,.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 0 0 0.5px rgba(20, 25, 30, 0.1),
+    0 1px 2px rgba(17, 17, 26, 0.06),
+    0 8px 24px rgba(17, 17, 26, 0.08);
 }
 .glass[data-lg="svg"] {
-  background: var(--lg-bg, linear-gradient(180deg, rgba(252,253,254,.74) 0%, rgba(247,249,251,.62) 55%, rgba(244,247,250,.68) 100%));
+  background: var(
+    --lg-bg,
+    linear-gradient(180deg, rgba(252, 253, 254, 0.74) 0%, rgba(247, 249, 251, 0.62) 55%, rgba(244, 247, 250, 0.68) 100%)
+  );
   -webkit-backdrop-filter: var(--lg-filter) blur(10px) saturate(1.7) brightness(1.04);
   backdrop-filter: var(--lg-filter) blur(10px) saturate(1.7) brightness(1.04);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.45), inset 1px 0 0 rgba(255,255,255,.35),
-              inset -1px 0 0 rgba(255,255,255,.35), inset 0 0 0 .5px rgba(20,25,30,.10), inset 0 8px 16px -10px rgba(255,255,255,.9),
-              0 1px 2px rgba(17,17,26,.06), 0 8px 24px rgba(17,17,26,.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.45),
+    inset 1px 0 0 rgba(255, 255, 255, 0.35),
+    inset -1px 0 0 rgba(255, 255, 255, 0.35),
+    inset 0 0 0 0.5px rgba(20, 25, 30, 0.1),
+    inset 0 8px 16px -10px rgba(255, 255, 255, 0.9),
+    0 1px 2px rgba(17, 17, 26, 0.06),
+    0 8px 24px rgba(17, 17, 26, 0.08);
 }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .glass { background: var(--lg-bg, rgba(248,250,252,.96)); }
+  .glass {
+    background: var(--lg-bg, rgba(248, 250, 252, 0.96));
+  }
 }

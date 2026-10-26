@@ -31,7 +31,15 @@ export function Footer({ note, secondary }: FooterProps) {
           </span>
           <div id="contact" aria-label="Contact" className="footer__socials">
             {SOCIALS.map(({ label, href, icon: IconC }) => (
-              <a key={label} href={href} target="_blank" rel="noopener" aria-label={label} title={label} className="social">
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener"
+                aria-label={label}
+                title={label}
+                className="social"
+              >
                 <IconC size={22} />
               </a>
             ))}

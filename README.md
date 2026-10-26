@@ -1,52 +1,44 @@
-# Ishak Šačirbey — Portfolio
+# Ishak Sacirbey — Portfolio
 
-A comic-book-styled personal portfolio and case-study site, built with React, TypeScript and Vite.
+Personal portfolio and case-study site, built with React, TypeScript and Vite. Hand-written CSS, no UI framework.
 
 ## Getting started
 
 ```bash
 npm install
-npm run dev      # start the dev server
-npm run build    # type-check and build for production
-npm run preview  # preview the production build
-npm run lint      # run oxlint
+npm run dev           # start the dev server
+npm run build         # type-check and build for production
+npm run preview       # preview the production build
+npm run lint          # run oxlint
+npm run format        # format everything with Prettier
+npm run format:check  # check formatting without writing
 ```
 
 ## Project structure
 
 ```
-src/
-├── assets/            images used across the site
-├── components/
-│   ├── common/         small shared UI (Kicker, ActionButton)
-│   ├── layout/          Header, Footer — rendered once by App, outside the pages
-│   ├── shop/             ShopCard — used by the Home preview and the Work shop grid
-│   ├── blog/             BrainPost — used by the Home preview and the Journal feed
-│   └── RetroScrollbar/  custom scrollbar, self-contained
-├── pages/              one folder per route (Home, Work, About, Experience, Process, Journal, Contact)
-│   └── Home/sections/   Home is composed from independent section components
-├── data/               content as typed arrays/objects (projects, socials, nav, blog posts, ...)
-├── hooks/               useHashRoute — the routing hook
-├── routes/               route table: page ids → page components
-├── utils/               small cross-page helpers (e.g. the Work project handoff)
-├── styles/              global.css — the entire visual design, as plain CSS
-├── App.tsx              shell: Header + current page + Footer
-└── main.tsx             entry point
+index.html          entry HTML, plus the inline screen-scaling script (see below)
+app/
+├── main.tsx        mounts the router and global styles
+├── App.tsx         routes: /, /about, /work, /work/:slug, /playground, /journal
+├── hooks.ts        small shared hooks (clock, typewriter, page title)
+├── components/     shared UI: Navbar, Footer, Glass (liquid glass), TechText, ui.tsx building blocks
+├── content/        all copy and data as typed objects, one file per page
+├── pages/          one component per route
+└── styles/         plain CSS: global.css (fonts, tokens), components.css, one file per page
+public/
+├── fonts/          self-hosted fonts (Clash Grotesk, JetBrains Mono, Jersey 10)
+└── images/         all images, as .webp
 ```
 
-## Routing
+## Conventions
 
-Routing is a small custom hook (`src/hooks/useHashRoute.ts`) over `location.hash` — there's no router
-dependency. `src/routes/routes.ts` maps each page id (`home`, `work`, `about`, `experience`, `process`,
-`journal`, `contact`) to its page component; `App.tsx` renders whichever one matches the current hash.
-
-## Content
-
-Anything that repeats (projects, social links, blog posts, timeline entries, pricing, ...) lives in
-`src/data/` as typed data, rendered with `.map()`. Copy that only belongs to one place in the UI stays
-inline in its component.
-
-## Design
-
-See [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) for the color palette, type scale and the visual language the
-site is built on.
+- **Content lives in `app/content/`.** Pages map over typed data; one-off copy stays inline in its component.
+- **Design tokens** (colours, fonts, easing) are CSS custom properties on `:root` in `app/styles/global.css`.
+  Project pages swap the colours via `THEMES` in `app/content/projects.ts`.
+- **Same look on every screen.** At 1280px wide and up, a script in `index.html` lays the page out at 1440px and
+  zooms it to fit the window. Because of that:
+  - use `cqw` instead of `vw` for fluid sizes (measured against `#root`, so they stay correct under the zoom);
+  - divide viewport heights by the zoom: `calc(100vh / var(--z, 1))`;
+  - in JS, `getBoundingClientRect()` and pointer coordinates are zoomed, while `offsetWidth`/`clientWidth` are not.
+- **Images** go in `public/images/` as `.webp`.

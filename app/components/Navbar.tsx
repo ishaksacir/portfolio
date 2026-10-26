@@ -9,12 +9,19 @@ export function Navbar() {
     <Glass as="header" className="nav">
       <div className="nav__inner">
         <Link to="/" className="nav__brand" aria-label="Ishak Sacirbey — home">
-          <span className="nav__logo"><span /></span>
+          <span className="nav__logo">
+            <span />
+          </span>
           <span className="nav__name">ISHAK SACIRBEY</span>
         </Link>
         <nav className="nav__links" aria-label="Main">
           {NAV_LINKS.map((l) => (
-            <NavLink key={l.to} to={l.to} end={l.to === "/"} className={({ isActive }) => (isActive ? "nav__link is-active" : "nav__link")}>
+            <NavLink
+              key={l.to}
+              to={l.to}
+              end={l.to === "/"}
+              className={({ isActive }) => (isActive ? "nav__link is-active" : "nav__link")}
+            >
               {l.label}
             </NavLink>
           ))}
@@ -24,7 +31,9 @@ export function Navbar() {
             <span className="nav__status-dot" />
             Available
           </div>
-          <time className="nav__clock" dateTime={now.toISOString()}>{formatClock(now)}</time>
+          <time className="nav__clock" dateTime={now.toISOString()}>
+            {formatClock(now)}
+          </time>
         </div>
       </div>
     </Glass>

@@ -21,7 +21,8 @@ export function formatClock(d: Date) {
 }
 
 /** Per-character delay used by most of the self-typing intros. */
-export const proseDelay = (ch: string) => (ch === " " ? 55 : ch === "," || ch === "." || ch === "—" ? 240 : 28 + Math.random() * 50);
+const proseDelay = (ch: string) =>
+  ch === " " ? 55 : ch === "," || ch === "." || ch === "—" ? 240 : 28 + Math.random() * 50;
 
 interface TypeOptions {
   /** ms before the first character */
@@ -33,7 +34,10 @@ interface TypeOptions {
 }
 
 /** Types `text` out one character at a time; returns the visible prefix. */
-export function useTypewriter(text: string, { startDelay = 500, delay = proseDelay, enabled = true }: TypeOptions = {}) {
+export function useTypewriter(
+  text: string,
+  { startDelay = 500, delay = proseDelay, enabled = true }: TypeOptions = {},
+) {
   const [n, setN] = useState(0);
   // Read through refs so a new inline `delay` each render doesn't restart the typing.
   const opts = useRef({ startDelay, delay });

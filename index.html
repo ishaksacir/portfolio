@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon-pixel.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Ishak Sacirbey — designer and developer in Sarajevo. I design and build software that feels handmade." />
+    <meta
+      name="description"
+      content="Ishak Sacirbey — designer and developer in Sarajevo. I design and build software that feels handmade."
+    />
     <meta name="theme-color" content="#EEF1F4" />
     <title>Ishak Sacirbey — designer &amp; developer</title>
     <script>
@@ -14,7 +17,9 @@
         var fit = function () {
           // Browser zoom (Cmd +/−) shrinks innerWidth but not outerWidth; measure the window without it so that zoom still works.
           var user = outerWidth ? Math.round((outerWidth / innerWidth) * 20) / 20 : 1;
-          var w = innerWidth * user, z = w >= 1280 ? w / 1440 : 1, s = document.documentElement.style;
+          var w = innerWidth * user,
+            z = w >= 1280 ? w / 1440 : 1,
+            s = document.documentElement.style;
           s.zoom = z === 1 ? "" : String(z);
           s.setProperty("--z", String(z));
         };

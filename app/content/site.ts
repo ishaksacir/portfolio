@@ -1,7 +1,5 @@
 import { GithubLogo, InstagramLogo, LinkedinLogo, XLogo, type Icon } from "@phosphor-icons/react";
 
-export const SITE_NAME = "Ishak Sacirbey";
-
 export const NAV_LINKS = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
@@ -10,7 +8,7 @@ export const NAV_LINKS = [
   { to: "/journal", label: "Blog" },
 ];
 
-export interface Social {
+interface Social {
   label: string;
   href: string;
   icon: Icon;

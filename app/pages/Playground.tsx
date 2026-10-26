@@ -2,7 +2,16 @@ import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent, ty
 import { Archive, Hammer, MoonStars, Note, TerminalWindow, Trash } from "@phosphor-icons/react";
 import { Footer } from "../components/Footer";
 import { FinderPath, Notification, PixelTitle, Segmented, Slot, TypedText } from "../components/ui";
-import { DROPS, EXPERIMENTS, PAPERS, PLAYGROUND_INTRO, STATUS_COLOR, TILTS, type Experiment, type Status } from "../content/playground";
+import {
+  DROPS,
+  EXPERIMENTS,
+  PAPERS,
+  PLAYGROUND_INTRO,
+  STATUS_COLOR,
+  TILTS,
+  type Experiment,
+  type Status,
+} from "../content/playground";
 import { prefersReducedMotion, useTitle, useTypewriter } from "../hooks";
 import "../styles/playground.css";
 
@@ -35,7 +44,10 @@ export default function Playground() {
   return (
     <>
       <main>
-        <section className="scenic-header" style={{ "--scene": "url('/images/land-coast.png')", "--scene-y": "40%" } as CSSProperties}>
+        <section
+          className="scenic-header"
+          style={{ "--scene": "url('/images/land-coast.webp')", "--scene-y": "40%" } as CSSProperties}
+        >
           <div className="scenic-header__inner pg-header">
             <FinderPath folder="playground" />
             <PixelTitle>PLAYGROUND</PixelTitle>
@@ -43,10 +55,17 @@ export default function Playground() {
               className="pg-intro"
               full={PLAYGROUND_INTRO}
               typed={intro}
-              before={<><span style={{ color: "var(--green)" }}>➜ </span><span style={{ color: "var(--accent-dark)" }}>unfinished </span></>}
+              before={
+                <>
+                  <span style={{ color: "var(--green)" }}>➜ </span>
+                  <span style={{ color: "var(--accent-dark)" }}>unfinished </span>
+                </>
+              }
             />
             <div className="notify-row">
-              <Notification icon={TerminalWindow} title="Build Failed">playground.cpp — 3 errors, 1 warning. Nothing here compiles yet.</Notification>
+              <Notification icon={TerminalWindow} title="Build Failed">
+                playground.cpp — 3 errors, 1 warning. Nothing here compiles yet.
+              </Notification>
               <span className="hand notify-row__note">click a note to flip it ↓</span>
             </div>
             <div className="segmented-row" style={{ paddingTop: 6 }}>
@@ -55,7 +74,10 @@ export default function Playground() {
                 value={filter}
                 onChange={setFilter}
                 items={FILTERS.map(({ key, icon }) => ({
-                  key, icon, label: key, count: key === "All" ? EXPERIMENTS.length : EXPERIMENTS.filter((x) => x.status === key).length,
+                  key,
+                  icon,
+                  label: key,
+                  count: key === "All" ? EXPERIMENTS.length : EXPERIMENTS.filter((x) => x.status === key).length,
                 }))}
               />
             </div>
@@ -88,11 +110,25 @@ function StickyNote({ item, index, onOpen }: { item: Experiment; index: number; 
     }
   };
   return (
-    <div className="sticky" role="button" tabIndex={0} aria-label={`Open ${item.title}`} style={style} onClick={onOpen} onKeyDown={onKey}>
+    <div
+      className="sticky"
+      role="button"
+      tabIndex={0}
+      aria-label={`Open ${item.title}`}
+      style={style}
+      onClick={onOpen}
+      onKeyDown={onKey}
+    >
       <span className="sticky__tape" style={{ transform: `translateX(-50%) rotate(${index % 2 ? 3 : -4}deg)` }} />
       <div className="sticky__paper" style={{ background: PAPERS[index % PAPERS.length] }}>
-        <div className="sticky__meta"><span>{item.file}</span><span>{item.date}</span></div>
-        <div className="sticky__photo" style={{ aspectRatio: item.ratio, transform: `rotate(${((index % 3) - 1) * 1.2}deg)` }}>
+        <div className="sticky__meta">
+          <span>{item.file}</span>
+          <span>{item.date}</span>
+        </div>
+        <div
+          className="sticky__photo"
+          style={{ aspectRatio: item.ratio, transform: `rotate(${((index % 3) - 1) * 1.2}deg)` }}
+        >
           <Slot src={item.src} label={item.ph} />
         </div>
         <span className="hand sticky__title">{item.title}</span>
@@ -108,7 +144,9 @@ function StatusRow({ item }: { item: Experiment }) {
   const c = STATUS_COLOR[item.status];
   return (
     <div className="status-row">
-      <span className="status-row__stamp" style={{ borderColor: c, color: c }}>{item.status.toUpperCase()}</span>
+      <span className="status-row__stamp" style={{ borderColor: c, color: c }}>
+        {item.status.toUpperCase()}
+      </span>
       <span className="status-row__rule" />
       <span>{item.pct}% done</span>
     </div>
@@ -161,7 +199,11 @@ function NoteModal({ item, index, onClosed }: { item: Experiment; index: number;
     <div
       className="note-modal"
       onClick={close}
-      style={{ background: `rgba(17,20,24,${hidden ? 0 : 0.55})`, backdropFilter: `blur(${hidden ? 0 : 6}px)`, WebkitBackdropFilter: `blur(${hidden ? 0 : 6}px)` }}
+      style={{
+        background: `rgba(17,20,24,${hidden ? 0 : 0.55})`,
+        backdropFilter: `blur(${hidden ? 0 : 6}px)`,
+        WebkitBackdropFilter: `blur(${hidden ? 0 : 6}px)`,
+      }}
     >
       <div
         ref={card}
@@ -181,20 +223,36 @@ function NoteModal({ item, index, onClosed }: { item: Experiment; index: number;
       >
         <span className="note-modal__tape" />
         <div className="note-face note-face--front" style={{ background: paper }}>
-          <div className="note-face__meta"><span>{item.file}</span><span>{item.date}</span></div>
-          <div className="note-face__photo"><Slot src={item.src} label={item.ph} /></div>
+          <div className="note-face__meta">
+            <span>{item.file}</span>
+            <span>{item.date}</span>
+          </div>
+          <div className="note-face__photo">
+            <Slot src={item.src} label={item.ph} />
+          </div>
           <span className="hand note-face__title">{item.title}</span>
           <span className="note-face__body">{item.body}</span>
           <span className="hand note-face__flip">flip me ↻</span>
         </div>
         <div className="note-face note-face--back" style={{ backgroundColor: paper }}>
           <div className="note-face__meta note-face__meta--back">
-            <span className="status-row__stamp" style={{ borderColor: c, color: c }}>{item.status.toUpperCase()}</span>
+            <span className="status-row__stamp" style={{ borderColor: c, color: c }}>
+              {item.status.toUpperCase()}
+            </span>
             <span>{item.pct}% done</span>
           </div>
-          <div className="note-face__section"><span>the idea</span><span>{item.idea}</span></div>
-          <div className="note-face__section"><span>where it's stuck</span><span>{item.stuck}</span></div>
-          <div className="note-face__section"><span>next step</span><span>→ {item.next}</span></div>
+          <div className="note-face__section">
+            <span>the idea</span>
+            <span>{item.idea}</span>
+          </div>
+          <div className="note-face__section">
+            <span>where it's stuck</span>
+            <span>{item.stuck}</span>
+          </div>
+          <div className="note-face__section">
+            <span>next step</span>
+            <span>→ {item.next}</span>
+          </div>
           <span style={{ flex: 1 }} />
           <div className="note-face__foot">
             <span className="note-face__stack">{item.stack}</span>
@@ -202,7 +260,9 @@ function NoteModal({ item, index, onClosed }: { item: Experiment; index: number;
           </div>
         </div>
       </div>
-      <span className="note-modal__hint" style={{ opacity: hidden ? 0 : 1 }}>click note to flip · click outside or esc to close</span>
+      <span className="note-modal__hint" style={{ opacity: hidden ? 0 : 1 }}>
+        click note to flip · click outside or esc to close
+      </span>
     </div>
   );
 }
