@@ -1,7 +1,6 @@
 import { Kicker } from "../../../components/common/Kicker";
 import { ActionButton } from "../../../components/common/ActionButton";
 import { navigateTo } from "../../../hooks/useHashRoute";
-import portrait from "../../../assets/ishak-hero-warrior-wide.png";
 
 export function HeroSection() {
   return (

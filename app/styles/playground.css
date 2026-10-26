@@ -1,0 +1,73 @@
+.pg-header { padding-bottom: clamp(36px, 4cqw, 56px); gap: clamp(16px, 2cqw, 24px); }
+.pg-intro { max-width: 52ch; font-family: var(--f-mono); font-size: clamp(14px, 1.3cqw, 18px); line-height: 1.6; color: var(--text-primary); }
+
+/* ─── Wall of sticky notes ───────────────────────────────────────────── */
+.pg-wall {
+  max-width: 1180px; margin: 0 auto;
+  padding: calc(clamp(24px, 3cqw, 40px) + 18px) calc(clamp(20px, 3cqw, 40px) + clamp(4px, 1cqw, 12px)) calc(clamp(40px, 5cqw, 64px) + 12px);
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: clamp(34px, 4cqw, 52px) clamp(24px, 3cqw, 40px);
+  align-items: start;
+}
+.sticky { position: relative; cursor: pointer; transform: rotate(var(--tilt)); transition: transform .3s var(--ease); }
+.sticky:hover, .sticky:focus-visible { transform: rotate(0deg) translateY(-4px) scale(1.02); }
+.sticky:focus-visible { outline: none; }
+.sticky:focus-visible .sticky__paper { outline: 2px solid var(--accent); outline-offset: 4px; }
+.sticky__tape, .note-modal__tape {
+  position: absolute; left: 50%; top: -11px; width: 84px; height: 22px; background: rgba(236,232,220,.72); z-index: 2;
+  box-shadow: 0 1px 2px rgba(20,25,30,.08); clip-path: polygon(3% 0, 97% 4%, 100% 50%, 96% 100%, 2% 96%, 0 50%);
+}
+.sticky__paper {
+  position: relative; padding: 22px 18px 18px; display: flex; flex-direction: column; gap: 10px; color: #2A2A26;
+  border-radius: 2px 2px 3px 18px / 2px 2px 3px 6px;
+  box-shadow: 0 1px 1px rgba(20,25,30,.08), 0 10px 18px -8px rgba(20,25,30,.28), inset 0 -14px 18px -14px rgba(20,25,30,.12);
+}
+.sticky__meta { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-family: var(--f-mono); font-size: 10px; letter-spacing: .06em; color: rgba(42,42,38,.62); }
+.sticky__meta > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sticky__meta > span:last-child { flex: none; }
+.sticky__photo { background: #FBFAF6; padding: 5px 5px 14px; box-shadow: 0 1px 3px rgba(20,25,30,.16); }
+.sticky__title { font-size: 27px; line-height: 1; color: #23231F; text-wrap: balance; }
+.sticky__body { font-size: 13px; line-height: 1.5; color: rgba(42,42,38,.82); text-wrap: pretty; }
+.sticky__note { font-size: 20px; line-height: 1.05; color: var(--accent); transform: rotate(-2deg); align-self: flex-end; }
+
+.status-row { display: flex; align-items: center; gap: 10px; font-family: var(--f-mono); font-size: 10px; letter-spacing: .08em; color: rgba(42,42,38,.7); }
+.status-row__stamp { padding: 2px 7px; border: 1.5px solid; border-radius: 4px; transform: rotate(-2deg); }
+.status-row__rule { flex: 1; height: 0; border-top: 1.5px dashed rgba(42,42,38,.25); }
+
+/* ─── Flip-note modal ────────────────────────────────────────────────── */
+.note-modal {
+  position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: clamp(16px, 4cqw, 48px);
+  transition: background .35s ease, backdrop-filter .35s ease; perspective: 1600px;
+}
+.note-modal__card {
+  position: relative; width: min(520px, 100%); height: min(600px, calc(calc(100vh / var(--z, 1)) - 110px)); cursor: pointer; transform-style: preserve-3d;
+  transition: transform .7s cubic-bezier(.2,.75,.2,1), opacity .3s ease;
+}
+.note-modal__card:focus-visible { outline: none; }
+.note-modal__tape { top: -14px; width: 120px; height: 28px; transform: translateX(-50%) rotate(-3deg); background: rgba(236,232,220,.8); z-index: 3; }
+.note-face {
+  position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column;
+  box-shadow: 0 2px 2px rgba(20,25,30,.1), 0 30px 60px -20px rgba(0,0,0,.5), inset 0 -20px 26px -20px rgba(20,25,30,.14);
+}
+.note-face--front { padding: 32px 30px 26px; gap: 14px; border-radius: 2px 2px 4px 26px / 2px 2px 4px 8px; color: #2A2A26; overflow: hidden; }
+.note-face--back {
+  transform: rotateY(180deg); padding: 34px 32px 26px; gap: 16px; border-radius: 2px 2px 26px 4px / 2px 2px 8px 4px; color: #23231F;
+  overflow-y: auto; font-family: var(--f-hand);
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 33px, rgba(42,42,38,.12) 33px, rgba(42,42,38,.12) 34px);
+  background-position: 0 20px;
+}
+.note-face__meta { display: flex; justify-content: space-between; gap: 10px; font-family: var(--f-mono); font-size: 11px; letter-spacing: .06em; color: rgba(42,42,38,.62); }
+.note-face__meta--back { align-items: center; font-size: 10.5px; letter-spacing: .1em; }
+.note-face__photo { flex: 1; min-height: 0; background: #FBFAF6; padding: 7px 7px 20px; box-shadow: 0 1px 4px rgba(20,25,30,.18); transform: rotate(-1deg); }
+.note-face__title { font-size: 40px; line-height: .95; color: #23231F; text-wrap: balance; }
+.note-face__body { font-size: 14.5px; line-height: 1.5; color: rgba(42,42,38,.82); }
+.note-face__flip { align-self: flex-end; font-size: 22px; color: var(--accent); transform: rotate(-3deg); }
+.note-face__section { display: flex; flex-direction: column; gap: 2px; }
+.note-face__section > span:first-child { font-size: 20px; line-height: 1; color: var(--accent); }
+.note-face__section > span:last-child { font-size: 25px; line-height: 1.3; }
+.note-face__foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.note-face__stack { font-family: var(--f-mono); font-size: 11px; letter-spacing: .04em; color: rgba(42,42,38,.7); }
+.note-face__sign { font-size: 22px; transform: rotate(-3deg); }
+.note-modal__hint {
+  position: fixed; left: 50%; bottom: clamp(14px, 3vh, 28px); transform: translateX(-50%); font-family: var(--f-mono); font-size: 11px;
+  letter-spacing: .06em; color: #E8EDF5; transition: opacity .3s; white-space: nowrap;
+}

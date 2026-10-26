@@ -2,14 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-pixel.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Ishak — creative developer building bold, useful digital experiences in Sarajevo." />
-    <meta name="theme-color" content="#191713" />
-    <title>ISHAK SACIRBEY</title>
+    <meta name="description" content="Ishak Sacirbey — designer and developer in Sarajevo. I design and build software that feels handmade." />
+    <meta name="theme-color" content="#EEF1F4" />
+    <title>Ishak Sacirbey — designer &amp; developer</title>
+    <script>
+      /* Lay the page out at 1440px and scale it to the window, so laptops and big monitors show the same design.
+         Below 1280px the normal responsive layout takes over. Height-based units divide by --z to undo the zoom. */
+      (function () {
+        var fit = function () {
+          // Browser zoom (Cmd +/−) shrinks innerWidth but not outerWidth; measure the window without it so that zoom still works.
+          var user = outerWidth ? Math.round((outerWidth / innerWidth) * 20) / 20 : 1;
+          var w = innerWidth * user, z = w >= 1280 ? w / 1440 : 1, s = document.documentElement.style;
+          s.zoom = z === 1 ? "" : String(z);
+          s.setProperty("--z", String(z));
+        };
+        fit();
+        addEventListener("resize", fit);
+      })();
+    </script>
+    <link rel="preload" href="/fonts/Jersey10-Regular.ttf" as="font" type="font/ttf" crossorigin />
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/app/main.tsx"></script>
   </body>
 </html>
