@@ -11,14 +11,17 @@
     <meta name="theme-color" content="#EEF1F4" />
     <title>Ishak Sacirbey — designer &amp; developer</title>
     <script>
-      /* Lay the page out at 1440px and scale it to the window, so laptops and big monitors show the same design.
-         Below 1280px the normal responsive layout takes over. Height-based units divide by --z to undo the zoom. */
+      /* Lay the page out at 1440px and scale it to the window, so laptops and big monitors show a similar design.
+         Below 1280px the normal responsive layout takes over. Above 1440px the zoom is capped at MAX_ZOOM so big
+         monitors don't blow everything up; past that the centred max-width containers just gain margin.
+         Height-based units divide by --z to undo the zoom. */
       (function () {
+        var MAX_ZOOM = 1.2;
         var fit = function () {
           // Browser zoom (Cmd +/−) shrinks innerWidth but not outerWidth; measure the window without it so that zoom still works.
           var user = outerWidth ? Math.round((outerWidth / innerWidth) * 20) / 20 : 1;
           var w = innerWidth * user,
-            z = w >= 1280 ? w / 1440 : 1,
+            z = w >= 1280 ? Math.min(w / 1440, MAX_ZOOM) : 1,
             s = document.documentElement.style;
           s.zoom = z === 1 ? "" : String(z);
           s.setProperty("--z", String(z));

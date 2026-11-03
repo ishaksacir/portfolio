@@ -15,32 +15,6 @@
   flex-direction: column;
   gap: clamp(16px, 2cqw, 24px);
 }
-.a-search {
-  align-self: flex-start;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: min(340px, 100%);
-  padding: 7px 8px 7px 12px;
-  border-radius: 11px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  font-family: var(--f-sys);
-}
-.a-search__query {
-  flex: 1;
-  font-size: 14px;
-  color: var(--text-primary);
-}
-.a-search__hit {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 8px;
-  border-radius: 6px;
-  background: rgba(20, 25, 30, 0.06);
-  font-size: 11.5px;
-  color: var(--text-secondary);
-}
 .a-top__intro {
   max-width: 30ch;
   font-family: var(--f-mono);
@@ -67,13 +41,6 @@
   height: 9px;
   border-radius: 50%;
   box-shadow: inset 0 0 0 0.5px rgba(20, 25, 30, 0.25);
-}
-.a-roles__note {
-  font-size: 24px;
-  line-height: 1;
-  color: var(--accent-dark);
-  transform: rotate(-3deg);
-  margin-left: 6px;
 }
 
 .a-portrait-col {
@@ -194,8 +161,7 @@
   grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
   gap: clamp(36px, 3cqw, 44px) clamp(18px, 2cqw, 26px);
 }
-.a-doing,
-.a-facts {
+.a-doing {
   list-style: none;
   margin: 0;
   display: flex;
@@ -210,18 +176,7 @@
   gap: 16px;
   align-items: flex-start;
 }
-.a-facts {
-  padding: 10px 22px 14px;
-}
-.a-facts li {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #e9ecef;
-}
 .a-doing li > div,
-.a-facts li > div,
 .a-timeline li > div {
   display: flex;
   flex-direction: column;
@@ -672,6 +627,28 @@
 .mac-lights.is-active > :nth-child(3) {
   background: #28c840;
   box-shadow: inset 0 0 0 0.5px #1aab29;
+}
+/* Hovering the group (like macOS) lights all three up, even on a background window, and shows their symbols. */
+.mac-lights:is(:hover, :focus-within) > :nth-child(1) {
+  background: #ff5f57
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3.6 3.6l4.8 4.8M8.4 3.6l-4.8 4.8' stroke='%234d0000' stroke-width='1.3' stroke-linecap='round'/%3E%3C/svg%3E")
+    center / 100% no-repeat;
+  box-shadow: inset 0 0 0 0.5px #e0443e;
+}
+.mac-lights:is(:hover, :focus-within) > :nth-child(2) {
+  background: #febc2e
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6h6' stroke='%23995700' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E")
+    center / 100% no-repeat;
+  box-shadow: inset 0 0 0 0.5px #dea123;
+}
+.mac-lights:is(:hover, :focus-within) > :nth-child(3) {
+  background: #28c840
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3.3 7.9V3.3h4.6zM8.7 4.1v4.6H4.1z' fill='%23006500'/%3E%3C/svg%3E")
+    center / 100% no-repeat;
+  box-shadow: inset 0 0 0 0.5px #1aab29;
+}
+.mac-lights > button:active {
+  filter: brightness(0.85);
 }
 
 /* Terminal (experience) */
@@ -1488,74 +1465,22 @@
 }
 
 /* Dock */
-.mac-dock-wrap {
-  position: absolute;
-  z-index: 50;
-  left: 50%;
-  bottom: 8px;
-  transform: translateX(-50%);
-}
+/* Dock: React Bits <Dock /> (components/Dock.tsx), sized to the mini Mac. */
 .mac-dock {
-  display: flex;
-  gap: 5px;
-  align-items: flex-end;
-  padding: 5px 6px 2px;
-  border-radius: 15px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.22)), rgba(214, 220, 228, 0.3);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.8),
-    0 0 0 0.5px rgba(20, 25, 30, 0.12),
-    0 14px 34px rgba(20, 8, 14, 0.3);
+  z-index: 50;
+  bottom: 8px;
 }
-.mac-dock__slot {
-  display: flex;
-  align-items: flex-end;
-  gap: 5px;
+/* Running-app dot: centred in the strip under the icons so it never touches the panel edge. */
+.mac-dock .dock-dot {
+  top: calc(100% + var(--dock-pad) / 2 - 2px);
 }
-.mac-dock__sep {
-  width: 1px;
-  height: 34px;
-  margin: 0 3px 5px;
-  background: rgba(20, 25, 30, 0.22);
-}
-.mac-dock__app {
-  width: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-}
-.mac-dock__lift {
-  display: block;
-  width: 40px;
-  height: 40px;
-  transition: transform 0.28s cubic-bezier(0.3, 1.6, 0.5, 1);
-}
-.mac-dock__lift img {
+.mac-dock .dock-face img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 3px 5px rgba(20, 8, 14, 0.3));
-  user-select: none;
-  transform-origin: 50% 100%;
-  transition: transform 0.28s cubic-bezier(0.3, 1.6, 0.5, 1);
-}
-.mac-dock__app:hover .mac-dock__lift img {
-  transform: translateY(-8px) scale(1.18);
-}
-.mac-dock__dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: rgba(20, 25, 30, 0.75);
+  pointer-events: none;
 }
 
 /* Narrow screens: icons go across the top, windows take the full width */
@@ -1601,13 +1526,6 @@
   .mac-spot__btns > svg,
   .mac-spot .mac-spot__like {
     display: none;
-  }
-  .mac-dock__app,
-  .mac-dock__lift {
-    width: 36px;
-  }
-  .mac-dock__lift {
-    height: 36px;
   }
 }
 
@@ -1714,4 +1632,221 @@
   width: 36px;
   height: 36px;
   object-fit: contain;
+}
+
+/* VS Code (dock) */
+.mac-code {
+  --vc-bg: #1f1f1f;
+  --vc-side: #181818;
+  --vc-line: #2b2b2b;
+  --vc-text: #cccccc;
+  --vc-dim: #858585;
+  background: var(--vc-bg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--vc-text);
+  font-family: var(--f-sys);
+  font-size: 12.5px;
+}
+.mac-code .mac-lights {
+  --idle: rgba(255, 255, 255, 0.16);
+}
+.mac-code button {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.mac-code__bar {
+  height: 34px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 13px;
+  background: var(--vc-side);
+  border-bottom: 1px solid var(--vc-line);
+}
+.mac-code__title {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  color: var(--vc-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mac-code.is-active .mac-code__title {
+  color: var(--vc-text);
+}
+.mac-code__activity {
+  flex: none;
+  width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding-top: 12px;
+  background: var(--vc-side);
+  border-right: 1px solid var(--vc-line);
+  color: #6e6e6e;
+}
+.mac-code__activity .is-on {
+  color: #d7d7d7;
+}
+.mac-code__side {
+  flex: none;
+  width: 170px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  background: var(--vc-side);
+  border-right: 1px solid var(--vc-line);
+}
+.mac-code__caption {
+  padding: 0 14px 10px;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--vc-dim);
+}
+.mac-code__folder {
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.mac-code .mac-code__file {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 24px;
+  text-align: left;
+}
+.mac-code .mac-code__file:hover {
+  background: #2a2d2e;
+}
+.mac-code .mac-code__file.is-on {
+  background: #37373d;
+  color: #ffffff;
+}
+.mac-code__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.mac-code__tabs {
+  flex: none;
+  display: flex;
+  height: 34px;
+  background: var(--vc-side);
+  border-bottom: 1px solid var(--vc-line);
+}
+.mac-code .mac-code__tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px 0 12px;
+  color: var(--vc-dim);
+  border-right: 1px solid var(--vc-line);
+}
+.mac-code .mac-code__tab.is-on {
+  background: var(--vc-bg);
+  color: #ffffff;
+  box-shadow: inset 0 1px 0 #0078d4;
+}
+.mac-code__tab-x {
+  opacity: 0;
+  margin-left: 4px;
+}
+.mac-code__tab.is-on .mac-code__tab-x {
+  opacity: 0.7;
+}
+.mac-code__editor {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 10px 0 14px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  line-height: 1.65;
+  animation: mac-code-in 0.25s ease;
+}
+@keyframes mac-code-in {
+  from {
+    opacity: 0;
+  }
+}
+.mac-code__line {
+  display: flex;
+}
+.mac-code__ln {
+  flex: none;
+  width: 44px;
+  padding-right: 18px;
+  text-align: right;
+  color: #6e7681;
+  user-select: none;
+}
+.mac-code__line code {
+  font: inherit;
+  white-space: pre;
+}
+.mac-code__caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.15em;
+  margin-left: 1px;
+  vertical-align: -0.2em;
+  background: #aeafad;
+}
+.tk-k {
+  color: #569cd6;
+}
+.tk-key {
+  color: #9cdcfe;
+}
+.tk-s {
+  color: #ce9178;
+}
+.tk-c {
+  color: #6a9955;
+  font-style: italic;
+}
+.tk-v {
+  color: #4fc1ff;
+}
+.tk-p {
+  color: #d4d4d4;
+}
+.tk-h {
+  color: #569cd6;
+  font-weight: 600;
+}
+.mac-code__status {
+  flex: none;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 10px;
+  background: #0078d4;
+  color: #ffffff;
+  font-size: 11px;
+}
+.mac-code__status > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+@media (max-width: 720px) {
+  .mac-code__activity,
+  .mac-code__side,
+  .mac-code__status > span:nth-child(n + 4) {
+    display: none;
+  }
 }

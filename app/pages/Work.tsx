@@ -29,7 +29,7 @@ export default function Work() {
     <>
       <main>
         <section
-          className="scenic-header"
+          className="scenic-header scenic-header--soft"
           style={{ "--scene": "url('/images/land-autumn.webp')", "--scene-y": "35%" } as CSSProperties}
         >
           <div className="scenic-header__inner">

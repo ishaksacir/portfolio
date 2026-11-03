@@ -11,7 +11,7 @@ interface FooterProps {
 /** Footer CTA + bottom bar. Always the light base theme, even on themed project pages. */
 export function Footer({ note, secondary }: FooterProps) {
   return (
-    <div className="theme-base">
+    <div className="theme-base site-end">
       <section className="cta">
         <div className="cta__inner">
           <span className="hand cta__note">{note}</span>

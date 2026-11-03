@@ -1,5 +1,6 @@
+import { Sparkle } from "@phosphor-icons/react";
 import { Link, NavLink } from "react-router-dom";
-import { NAV_LINKS } from "../content/site";
+import { NAV_LINKS, NAV_PLAYGROUND } from "../content/site";
 import { formatClock, useNow } from "../hooks";
 import { Glass } from "./Glass";
 
@@ -27,6 +28,15 @@ export function Navbar() {
           ))}
         </nav>
         <div className="nav__right">
+          <NavLink
+            to={NAV_PLAYGROUND.to}
+            aria-label={NAV_PLAYGROUND.label}
+            className={({ isActive }) => (isActive ? "nav__play is-active" : "nav__play")}
+          >
+            <Sparkle size={12} weight="fill" />
+            <span className="nav__play-label">{NAV_PLAYGROUND.label}</span>
+          </NavLink>
+          <span className="nav__sep" aria-hidden="true" />
           <div className="nav__status">
             <span className="nav__status-dot" />
             Available

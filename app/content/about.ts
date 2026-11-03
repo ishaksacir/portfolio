@@ -4,12 +4,9 @@ import {
   Brain,
   Code,
   Ear,
-  GlobeSimple,
   GraduationCap,
   Hammer,
-  Laptop,
   MagnifyingGlass,
-  MapPin,
   PenNib,
   PencilSimple,
   RocketLaunch,
@@ -33,13 +30,6 @@ export const DOING: { icon: Icon; t: string; d: string }[] = [
   { icon: Code, t: "Web development", d: "Fast, hand-built websites and web apps." },
   { icon: Brain, t: "AI & Data Science", d: "Machine learning, automation and building with AI." },
   { icon: PenNib, t: "Branding & visual identity", d: "Logos, type and posters with a bit of personality." },
-];
-
-export const FACTS: { icon: Icon; t: string; d: string }[] = [
-  { icon: MapPin, t: "Bihać, Bosnia and Herzegovina", d: "Currently based in Sarajevo" },
-  { icon: GraduationCap, t: "ETF Sarajevo — DSAI", d: "Data Science & Artificial Intelligence" },
-  { icon: Laptop, t: "2 years at TU Graz", d: "Software Engineering and Management" },
-  { icon: GlobeSimple, t: "Bosnian, English, German", d: "Native · very good · B2" },
 ];
 
 export const EDUCATION = [
@@ -195,7 +185,7 @@ export const TOOLS = [
   { name: "JavaScript", src: devicon("javascript/javascript-original.svg") },
 ];
 
-export type DesktopApp = "now" | "exp" | "work" | "music";
+export type DesktopApp = "now" | "exp" | "work" | "music" | "code";
 
 /** Desktop icons, top to bottom. `app` is the menu-bar name while that window is in front. */
 export const DESKTOP_ICONS: { key: DesktopApp; label: string; app: string; src: string }[] = [
@@ -210,7 +200,7 @@ export const MENU = ["File", "Edit", "View", "Window", "Help"];
 export const DOCK: { key: string; t: string; src: string; running?: boolean; sep?: boolean; opens?: DesktopApp }[] = [
   { key: "finder", t: "Finder", src: "/images/desktop/dock-finder.webp", running: true },
   { key: "spotify", t: "Spotify", src: "/images/desktop/dock-spotify.webp", opens: "music" },
-  { key: "vscode", t: "Visual Studio Code", src: "/images/desktop/dock-vscode.webp" },
+  { key: "vscode", t: "Visual Studio Code", src: "/images/desktop/dock-vscode.webp", opens: "code" },
   { key: "trash", t: "Trash", src: "/images/desktop/dock-trash-empty.webp", sep: true },
 ];
 
@@ -228,4 +218,42 @@ export const TRACKS: { t: string; a: string; album: string; len: number; color: 
   { t: "Teardrop", a: "Massive Attack", album: "Mezzanine", len: 330, color: "#8C6A3A" },
   { t: "Nightcall", a: "Kavinsky", album: "OutRun", len: 258, color: "#C2416B" },
   { t: "Weightless", a: "Marconi Union", album: "Weightless", len: 480, color: "#4F8A6B" },
+];
+
+/** Files in the VS Code window (opened from the dock). Plain text; the window highlights it by `lang`. */
+export const CODE_FILES: { name: string; lang: "ts" | "md"; code: string }[] = [
+  {
+    name: "ishak.ts",
+    lang: "ts",
+    code: `const ishak = {
+  role: "Web developer",
+  based: "Sarajevo, Bosnia and Herzegovina",
+  from: "Bihać",
+  studying: "Data Science & AI @ ETF Sarajevo",
+  previously: "Software Engineering @ TU Graz",
+  languages: ["Bosnian", "English", "German"],
+  stack: ["TypeScript", "React", "Python", "PostgreSQL"],
+  offline: ["skiing", "photography", "rafting the Una"],
+  openTo: ["freelance", "internships"],
+};
+
+// built by hand, shipped with care
+export default ishak;`,
+  },
+  {
+    name: "README.md",
+    lang: "md",
+    code: `# Ishak Sacirbey
+
+Designer & developer. I design and build
+software that feels handmade.
+
+## Currently
+- studying Data Science & AI at ETF
+- learning machine learning
+- building this portfolio, pixel by pixel
+
+## Say hi
+Open to freelance work and internships.`,
+  },
 ];

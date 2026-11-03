@@ -1,29 +1,15 @@
 import { useEffect, useRef, useState, type CSSProperties, type Dispatch, type SetStateAction } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Bug,
-  CaretLeft,
-  CaretRight,
-  ChartBar,
-  ChatCircle,
-  FileCss,
-  Files,
-  FileTs,
-  GitBranch,
-  Heart,
-  MagnifyingGlass,
-  PuzzlePiece,
-  Repeat,
-  SealCheck,
-  SidebarSimple,
-} from "@phosphor-icons/react";
+import { CaretLeft, CaretRight, ChartBar, ChatCircle, Heart, Repeat, SealCheck } from "@phosphor-icons/react";
+import CardSwap, { Card, type CardSwapHandle } from "../components/CardSwap";
 import { Footer } from "../components/Footer";
 import { Glass } from "../components/Glass";
 import { Highlight } from "../components/TechText";
 import { GlassButton, TrafficLights } from "../components/ui";
-import { ABOUT_CHIPS, BIO, HERO_CODE } from "../content/home";
+import { TOOLS } from "../content/about";
+import { BIO, HERO_CODE } from "../content/home";
 import { THREADS } from "../content/journal";
-import { PROJECTS, type Project } from "../content/projects";
+import { PROJECTS } from "../content/projects";
 import { prefersReducedMotion, useTitle, useTypewriter } from "../hooks";
 import "../styles/home.css";
 
@@ -145,7 +131,7 @@ function Hero() {
             </div>
           </div>
 
-          <span className="hand hero__pixels">(yes, the pixels are on purpose)</span>
+          <span className="hand hero__type-note">(it types itself, give it a sec)</span>
           <span className="hand hero__role">Product designer</span>
         </div>
 
@@ -237,12 +223,15 @@ function AboutPreview() {
             </div>
             <span className="h-about__tag">&lt;/about&gt;</span>
           </div>
-          <div className="h-about__chips">
-            {ABOUT_CHIPS.map((c) => (
-              <Glass as="span" key={c} className="chip-glass">
-                {c}
-              </Glass>
-            ))}
+          <div className="h-tools">
+            <span className="hand h-tools__note">tools I work in</span>
+            <ul className="h-tools__row">
+              {TOOLS.map((t) => (
+                <li key={t.name} className="h-tools__tile" title={t.name}>
+                  <img src={t.src} alt={t.name} width={22} height={22} loading="lazy" />
+                </li>
+              ))}
+            </ul>
           </div>
           <div style={{ paddingTop: 6 }}>
             <GlassButton to="/about" dot="amber">
@@ -255,86 +244,14 @@ function AboutPreview() {
   );
 }
 
-/* ─── Work preview: Finder cover-flow + VS Code ─────────────────────── */
-
-function flowStyle(k: number, si: number, n: number): CSSProperties {
-  let o = k - si;
-  if (o > n / 2) o -= n;
-  if (o < -n / 2) o += n;
-  const ao = Math.abs(o),
-    dir = Math.sign(o);
-  const x = o === 0 ? 0 : ao === 1 ? dir * 66 : dir * 100;
-  const sc = o === 0 ? 1 : ao === 1 ? 0.62 : 0.44;
-  const ry = o === 0 ? 0 : -dir * 30;
-  return {
-    transform: `translate(-50%,-50%) translateX(${x}%) scale(${sc}) rotateY(${ry}deg)`,
-    opacity: ao > 2 ? 0 : ao === 2 ? 0.5 : 1,
-    pointerEvents: ao > 2 ? "none" : "auto",
-    zIndex: 10 - ao,
-    boxShadow:
-      o === 0
-        ? "0 0 0 1px rgba(20,25,30,.08),0 24px 48px rgba(20,25,30,.22)"
-        : "0 0 0 1px rgba(20,25,30,.08),0 10px 24px rgba(20,25,30,.14)",
-  };
-}
-
-type Tok = { t: string; c: string };
-const K = "#C4A7E7",
-  S = "#D8B874",
-  P = "#8FB8DE",
-  N = "#E0A07A",
-  C = "#6F7788",
-  X = "#A9B1BA",
-  F = "#7FC8B8";
-
-/** The project as a tiny TypeScript file, syntax-highlighted. */
-function projectCode(p: Project): Tok[][] {
-  const str = (v: string): Tok[] => [{ t: `'${v}'`, c: S }];
-  const stack: Tok[] = [{ t: "[", c: X }];
-  p.chips.forEach((x, i) => {
-    stack.push(...str(x));
-    if (i < p.chips.length - 1) stack.push({ t: ", ", c: X });
-  });
-  stack.push({ t: "]", c: X });
-  const prop = (k: string, v: Tok[]): Tok[] => [{ t: "  " + k, c: P }, { t: ": ", c: X }, ...v, { t: ",", c: X }];
-  return [
-    [{ t: `// ${p.title} — case file ${p.no}`, c: C }],
-    [
-      { t: "import", c: K },
-      { t: " { ", c: X },
-      { t: "defineProject", c: F },
-      { t: " } ", c: X },
-      { t: "from", c: K },
-      { t: " '@ishak/work'", c: S },
-      { t: ";", c: X },
-    ],
-    [],
-    [
-      { t: "export default ", c: K },
-      { t: "defineProject", c: F },
-      { t: "({", c: X },
-    ],
-    prop("name", str(p.title)),
-    prop("kind", str("Website")),
-    prop("year", [{ t: p.year, c: N }]),
-    prop("stack", stack),
-    prop("status", str(p.status.toLowerCase())),
-    prop("hook", str(p.hook)),
-    [{ t: "});", c: X }],
-    [],
-    [{ t: "// made by hand, pixel by pixel", c: C }],
-  ];
-}
-const CURSOR_LINE = 11;
+/* ─── Work preview: React Bits card stack + synced project details ──── */
 
 function WorkPreview() {
   const [sel, setSel] = useState(0);
+  const swap = useRef<CardSwapHandle>(null);
   const navigate = useNavigate();
   const n = PROJECTS.length;
   const cur = PROJECTS[sel];
-  const prev = () => setSel((s) => (s - 1 + n) % n);
-  const next = () => setSel((s) => (s + 1) % n);
-  const file = cur.slug + ".ts";
   const kind = cur.kind.split(" · ")[0];
 
   return (
@@ -361,147 +278,93 @@ function WorkPreview() {
           <GlassButton to="/work">All projects →</GlassButton>
         </div>
 
-        <div className="h-work__row">
-          <div className="finder">
-            <Glass className="win__bar">
-              <TrafficLights />
-              <div className="finder__nav">
-                <button type="button" aria-label="Previous" onClick={prev}>
-                  ‹
-                </button>
-                <button type="button" aria-label="Next" onClick={next}>
-                  ›
-                </button>
-              </div>
-              <div className="finder__title">
-                <img src="/images/folder-code.webp" alt="" />
-                <span>Selected work</span>
-              </div>
-              <span className="finder__count">{n} items</span>
-            </Glass>
-            <div className="finder__body">
-              <div className="flow">
-                {PROJECTS.map((p, k) => (
-                  <button
-                    type="button"
-                    key={p.slug}
-                    className="flow__card"
-                    style={flowStyle(k, sel, n)}
-                    // The centred cover opens the case study; a side cover just rotates into the centre.
-                    onClick={() => (k === sel ? navigate(`/work/${p.slug}`) : setSel(k))}
-                    aria-label={k === sel ? `Open ${p.title} case study` : `Show ${p.title}`}
-                  >
-                    <img src={p.cover} alt="" />
-                  </button>
+        <div className="h-work__stage">
+          {/* Details follow whichever card is in front: drag, click or the arrows (no autoplay). */}
+          <div className="h-work__info">
+            <div className="h-work__count" aria-hidden="true">
+              <b>{cur.no}</b>
+              <span className="h-work__track">
+                {PROJECTS.map((p, i) => (
+                  <i key={p.slug} className={i === sel ? "is-on" : undefined} />
                 ))}
+              </span>
+              <span>{pad2(n)}</span>
+            </div>
+            <div key={cur.slug} className="h-work__text" aria-live="polite">
+              <div className="h-work__meta">
+                <span className="h-work__kind">{kind}</span>
+                <span>{cur.year}</span>
+                <span>{cur.domain}</span>
+              </div>
+              <h3 className="h-work__name">{cur.title}</h3>
+              <p className="h-work__hook">{cur.hook}</p>
+              <div className="h-work__built">
+                <span>Built with</span>
+                <ul className="h-work__chips">
+                  {cur.chips.map((c) => (
+                    <li key={c}>{c}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="h-work__actions">
+              <GlassButton to={`/work/${cur.slug}`}>Open case →</GlassButton>
+              <div className="h-work__nav">
                 <Glass
                   as="button"
                   type="button"
-                  className="flow__arrow flow__arrow--l"
+                  className="h-work__arrow"
                   aria-label="Previous project"
-                  onClick={prev}
+                  onClick={() => swap.current?.prev()}
                 >
-                  <CaretLeft size={17} />
+                  <CaretLeft size={16} />
                 </Glass>
                 <Glass
                   as="button"
                   type="button"
-                  className="flow__arrow flow__arrow--r"
+                  className="h-work__arrow"
                   aria-label="Next project"
-                  onClick={next}
+                  onClick={() => swap.current?.next()}
                 >
-                  <CaretRight size={17} />
+                  <CaretRight size={16} />
                 </Glass>
               </div>
-              <div className="finder__info">
-                <div className="finder__info-text">
-                  <div className="finder__info-head">
-                    <span className="finder__no">{cur.no}</span>
-                    <span className="finder__name">{cur.title}</span>
-                    <span className="finder__meta">
-                      {kind} · {cur.year}
-                    </span>
-                  </div>
-                  <span className="finder__hook">{cur.hook}</span>
-                </div>
-                <GlassButton to={`/work/${cur.slug}`}>Open case →</GlassButton>
-              </div>
             </div>
-            <div className="finder__path">
-              <span>Macintosh HD</span>
-              <span>›</span>
-              <span>Users</span>
-              <span>›</span>
-              <span>ishak</span>
-              <span>›</span>
-              <span>Work</span>
-              <span>›</span>
-              <span style={{ color: "var(--text-primary)" }}>{cur.title}</span>
-            </div>
+            <span className="hand h-work__hint">drag the cards, or use the arrows →</span>
           </div>
 
-          <div className="vscode" aria-label={`${file} source`}>
-            <div className="vscode__title">
-              <TrafficLights flat />
-              <span className="vscode__title-text">{file} — ishak/work</span>
-              <SidebarSimple size={15} color="#8C93A3" />
-            </div>
-            <div className="vscode__main">
-              <div className="vscode__activity">
-                <span className="vscode__activity-on">
-                  <Files size={20} />
-                </span>
-                <MagnifyingGlass size={19} />
-                <GitBranch size={19} />
-                <Bug size={19} />
-                <PuzzlePiece size={19} />
-              </div>
-              <div className="vscode__editor">
-                <div className="vscode__tabs">
-                  <div className="vscode__tab is-active">
-                    <FileTs size={14} color="#7FA6DE" />
-                    {file}
-                    <span style={{ color: "#6C7383" }}>×</span>
+          <div className="h-work__deck">
+            <CardSwap
+              ref={swap}
+              theme="light"
+              width={680}
+              height={400}
+              cardDistance={64}
+              verticalDistance={46}
+              depth={90}
+              skewAmount={3}
+              autoplay={false}
+              cardRadius={14}
+              parallax={0.3}
+              dim={0.4}
+              onChange={setSel}
+              onCardClick={(i) => {
+                if (i === sel) navigate(`/work/${PROJECTS[i].slug}`);
+              }}
+              aria-label="Selected work — drag the front card or use the arrow keys"
+            >
+              {PROJECTS.map((p) => (
+                <Card key={p.slug} className="h-work__card">
+                  <div className="h-work__card-bar">
+                    <TrafficLights size={9} />
+                    <span className="h-work__card-url">{p.domain}</span>
                   </div>
-                  <div className="vscode__tab">
-                    <FileCss size={14} />
-                    styles.css
+                  <div className="h-work__card-cover">
+                    <img src={p.cover} alt={`${p.title} — cover`} draggable={false} />
                   </div>
-                </div>
-                <div className="vscode__crumbs">
-                  work › {cur.slug} › {file}
-                </div>
-                <div className="vscode__code">
-                  {projectCode(cur).map((tk, i) => (
-                    <div
-                      key={i}
-                      className="vscode__line"
-                      style={{ background: i === CURSOR_LINE ? "rgba(255,255,255,.04)" : "transparent" }}
-                    >
-                      <span className="vscode__ln">{i + 1}</span>
-                      <span className="vscode__text">
-                        {tk.map((t, j) => (
-                          <span key={j} style={{ color: t.c }}>
-                            {t.t}
-                          </span>
-                        ))}
-                        {i === CURSOR_LINE && <span className="vscode__caret blink" />}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className="vscode__status">
-              <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-                <GitBranch size={12} />
-                main
-              </span>
-              <span>✓ 0 problems</span>
-              <span style={{ flex: 1 }} />
-              <span>Ln {CURSOR_LINE + 1}, Col 1</span>
-              <span>TypeScript</span>
-            </div>
+                </Card>
+              ))}
+            </CardSwap>
           </div>
         </div>
       </div>

@@ -1,10 +1,12 @@
 import { GithubLogo, InstagramLogo, LinkedinLogo, XLogo, type Icon } from "@phosphor-icons/react";
 
+/** Side projects and experiments; set apart from the main pages in the navbar. */
+export const NAV_PLAYGROUND = { to: "/playground", label: "Playground" };
+
 export const NAV_LINKS = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/work", label: "Work" },
-  { to: "/playground", label: "Playground" },
   { to: "/journal", label: "Blog" },
 ];
 

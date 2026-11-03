@@ -45,7 +45,7 @@ export default function Playground() {
     <>
       <main>
         <section
-          className="scenic-header"
+          className="scenic-header scenic-header--soft"
           style={{ "--scene": "url('/images/land-coast.webp')", "--scene-y": "40%" } as CSSProperties}
         >
           <div className="scenic-header__inner pg-header">

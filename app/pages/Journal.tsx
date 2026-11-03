@@ -8,7 +8,6 @@ import {
   Export,
   GearSix,
   Heart,
-  NotePencil,
   PenNib,
   Repeat,
   SealCheck,
@@ -16,7 +15,7 @@ import {
 } from "@phosphor-icons/react";
 import { Footer } from "../components/Footer";
 import { Glass } from "../components/Glass";
-import { GlassButton, Notification, Segmented, Slot, TrafficLights, TypedText } from "../components/ui";
+import { GlassButton, Segmented, Slot, TrafficLights, TypedText } from "../components/ui";
 import { JOURNAL_INTRO, POSTS, TAG_STYLE, TODOS, WRITING_ABOUT, type Category, type Post } from "../content/journal";
 import { CONTACT_EMAIL } from "../content/site";
 import { useTitle, useTypewriter } from "../hooks";
@@ -34,8 +33,6 @@ const CATEGORIES: { key: "All" | Category; icon: typeof Stack }[] = [
   { key: "Life", icon: Coffee },
   { key: "Process", icon: GearSix },
 ];
-
-const LATEST = [...POSTS].sort((a, b) => b.d.localeCompare(a.d))[0];
 
 const sorter: Record<Sort, (a: Post, b: Post) => number> = {
   Newest: (a, b) => b.d.localeCompare(a.d),
@@ -153,7 +150,7 @@ export default function Journal() {
 
           {/* ── centre column ── */}
           <section className="desk__main" aria-label="Notes">
-            <div className="win">
+            <div className="win journal-win">
               <Glass className="win__bar">
                 <TrafficLights />
                 <div className="journal-file">
@@ -172,9 +169,6 @@ export default function Journal() {
                     every month-ish ↓
                   </span>
                 </div>
-                <Notification icon={NotePencil} tone="amber" title="New note" time={LATEST.date} delay={1200}>
-                  “{LATEST.title}” — {LATEST.mins} min read, filed under {LATEST.cat.toLowerCase()}.
-                </Notification>
               </div>
               <Glass className="win__foot journal-foot">
                 <span>{countLabel}</span>

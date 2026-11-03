@@ -24,5 +24,3 @@ export const HERO_CODE = [
 
 export const BIO =
   "Studying Data Science & AI at ETF Sarajevo, with two years of Software Engineering at TU Graz behind me. I design interfaces and build the things behind them.";
-
-export const ABOUT_CHIPS = ["Bihać → Sarajevo", "ETF · DSAI", "TU Graz", "BS / EN / DE"];

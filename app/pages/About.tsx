@@ -1,48 +1,46 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  type ComponentProps,
-  type CSSProperties,
-  type MouseEvent,
-  type ReactNode,
-} from "react";
+import { useEffect, useState, type ComponentProps, type CSSProperties, type MouseEvent, type ReactNode } from "react";
 import {
   ArrowRight,
   BatteryHigh,
   Books,
+  Bug,
   CaretLeft,
   CaretRight,
-  ChatCircle,
   Clock,
   DownloadSimple,
+  FileMd,
+  Files,
+  FileTs,
+  GitBranch,
   Heart,
   House,
   MagnifyingGlass,
   NotePencil,
   Pause,
   Play,
+  PuzzlePiece,
   PushPin,
   Repeat,
   Shuffle,
   SkipBack,
   SkipForward,
   SpeakerHigh,
-  UserCircle,
   WifiHigh,
+  X,
 } from "@phosphor-icons/react";
+import Dock, { type DockItemData, type DockMenuItem } from "../components/Dock";
 import { Footer } from "../components/Footer";
 import { Glass } from "../components/Glass";
-import { ContactButton, GlassButton, Notification, PixelTitle, SectionHead, Slot, TypedText } from "../components/ui";
+import { ContactButton, GlassButton, PixelTitle, SectionHead, Slot, TypedText } from "../components/ui";
 import {
   ABOUT_INTRO,
   CALENDARS,
+  CODE_FILES,
   DESKTOP_ICONS,
   DOCK,
   DOING,
   EDUCATION,
   EXPERIENCE,
-  FACTS,
   MENU,
   NOW,
   PLAYLIST,
@@ -69,17 +67,12 @@ export default function About() {
   return (
     <>
       <main>
-        <div className="scenic-header" style={{ "--scene": "url('/images/land-lake.webp')" } as CSSProperties}>
+        <div
+          className="scenic-header scenic-header--soft"
+          style={{ "--scene": "url('/images/land-lake.webp')" } as CSSProperties}
+        >
           <section className="a-top">
             <div className="a-top__main">
-              <Glass className="a-search">
-                <MagnifyingGlass size={15} color="var(--text-secondary)" />
-                <span className="a-search__query">whoami</span>
-                <span className="a-search__hit">
-                  <UserCircle size={13} color="var(--accent)" />
-                  Ishak Sacirbey
-                </span>
-              </Glass>
               <PixelTitle>ABOUT ME</PixelTitle>
               <TypedText className="a-top__intro" full={ABOUT_INTRO} typed={intro} />
               <div className="a-roles">
@@ -89,11 +82,7 @@ export default function About() {
                     {r.label}
                   </span>
                 ))}
-                <span className="hand a-roles__note">same person, just different tools ↓</span>
               </div>
-              <Notification icon={ChatCircle} tone="blue" title="Messages" time="now" delay={1400}>
-                <b>Ishak:</b> open to freelance work &amp; internships. Say hi — I don&apos;t bite.
-              </Notification>
             </div>
 
             <div className="a-portrait-col">
@@ -118,8 +107,7 @@ export default function About() {
                 hi, I'm Ishak Sacirbey <span style={{ color: "var(--accent)" }}>↘</span>
               </span>
               <p className="a-hello__text">
-                I'm a student of Data Science &amp; Artificial Intelligence at ETF Sarajevo, with a background in
-                Software Engineering and a deep interest in design, AI, and building useful things.
+                Studying Data Science &amp; AI in Sarajevo. Open to freelance work and internships.
               </p>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
                 <ContactButton label="Contact" />
@@ -179,29 +167,6 @@ export default function About() {
                 <span className="hand a-personal__caption">random</span>
               </div>
             </div>
-          </div>
-
-          <div className="card">
-            <div className="card__label">
-              <span className="label">QUICK FACTS</span>
-            </div>
-            <ul className="a-facts">
-              {FACTS.map(({ icon: IconC, t, d }) => (
-                <li key={t}>
-                  <span className="icon-tile">
-                    <IconC size={18} />
-                  </span>
-                  <div>
-                    <span className="a-item-t" style={{ fontWeight: 400, fontSize: 12.5 }}>
-                      {t}
-                    </span>
-                    <span className="a-item-d" style={{ fontSize: 11.5, color: "var(--text-muted)" }}>
-                      {d}
-                    </span>
-                  </div>
-                </li>
-              ))}
-            </ul>
           </div>
         </section>
 
@@ -272,15 +237,12 @@ function Desktop() {
   const [note, setNote] = useState(0);
   const [pr, setPr] = useState(0);
   const [prRun, setPrRun] = useState(0);
-  const [bounce, setBounce] = useState<string | null>(null);
-  const bounceT = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   // Principles auto-advance; bumping `prRun` restarts the 7s timer after a manual pick.
   useEffect(() => {
     const t = setInterval(() => setPr((p) => (p + 1) % PRINCIPLES.length), 7000);
     return () => clearInterval(t);
   }, [prRun]);
-  useEffect(() => () => clearTimeout(bounceT.current), []);
 
   const top = win.order[win.order.length - 1];
   const openWin = (k: DesktopApp) =>
@@ -292,12 +254,39 @@ function Desktop() {
     setPrRun((n) => n + 1);
   };
   const pickNote = (i: number) => setNote((i + PROCESS.length) % PROCESS.length);
-  const launch = (k: string, opens?: DesktopApp) => {
-    if (opens) openWin(opens);
-    clearTimeout(bounceT.current);
-    setBounce(k);
-    bounceT.current = setTimeout(() => setBounce(null), 320);
-  };
+  /** Dock items for the React Bits dock: click opens (it hops by itself), right click / long press for the menu. */
+  const dockItems: DockItemData[] = DOCK.flatMap((d): DockItemData[] => {
+    const open = d.opens ? !!win.open[d.opens] : false;
+    let menu: DockMenuItem[] | undefined;
+    if (d.key === "finder") {
+      menu = [
+        ...DESKTOP_ICONS.map((i) => ({ label: `Open ${i.label}`, onClick: () => openWin(i.key) })),
+        { separator: true },
+        {
+          label: "Close All Windows",
+          disabled: win.order.length === 0,
+          onClick: () => setWin({ open: {}, order: [] }),
+        },
+      ];
+    } else if (d.opens) {
+      const k = d.opens;
+      menu = [
+        { label: open ? "Show" : "Open", onClick: () => openWin(k) },
+        { separator: true },
+        { label: "Quit", shortcut: "⌘Q", disabled: !open, onClick: () => closeWin(k) },
+      ];
+    } else if (d.key === "trash") {
+      menu = [{ label: "Empty Trash", disabled: true }];
+    }
+    const item: DockItemData = {
+      label: d.t,
+      icon: <img src={d.src} alt="" draggable={false} />,
+      active: d.running || open,
+      onClick: d.opens ? () => openWin(d.opens!) : undefined,
+      menu,
+    };
+    return d.sep ? [{ separator: true }, item] : [item];
+  });
 
   /** Shared window chrome state: open/closed, front/back, stacking. */
   const frame = (k: DesktopApp) => {
@@ -336,7 +325,8 @@ function Desktop() {
   const exp = frame("exp"),
     cal = frame("now"),
     work = frame("work"),
-    music = frame("music");
+    music = frame("music"),
+    code = frame("code");
   const expOn = !!win.open.exp;
   const step = PROCESS[note];
   const principle = PRINCIPLES[pr];
@@ -585,35 +575,24 @@ function Desktop() {
 
             {/* Dock → Spotify */}
             <SpotifyWin win={music.props} lights={music.lights} />
+
+            {/* Dock → VS Code */}
+            <CodeWin win={code.props} lights={code.lights} />
           </div>
 
-          <div className="mac-dock-wrap">
-            <div className="mac-dock">
-              {DOCK.map((d) => (
-                <div key={d.key} className="mac-dock__slot">
-                  {d.sep && <span className="mac-dock__sep" />}
-                  <button
-                    type="button"
-                    aria-label={d.t}
-                    title={d.t}
-                    className="mac-dock__app"
-                    onClick={() => launch(d.key, d.opens)}
-                  >
-                    <span
-                      className="mac-dock__lift"
-                      style={{ transform: bounce === d.key ? "translateY(-18px)" : undefined }}
-                    >
-                      <img src={d.src} alt="" draggable={false} />
-                    </span>
-                    <span
-                      className="mac-dock__dot"
-                      style={{ opacity: d.running || (d.opens && win.open[d.opens]) ? 1 : 0 }}
-                    />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
+          <Dock
+            className="mac-dock"
+            items={dockItems}
+            theme="light"
+            tiles={false}
+            baseItemSize={40}
+            magnification={62}
+            distance={140}
+            panelHeight={58}
+            gap={6}
+            accentColor="var(--accent)"
+            style={{ "--dock-separator": "rgba(20, 25, 30, 0.22)" } as CSSProperties}
+          />
         </div>
       </div>
     </div>
@@ -838,6 +817,126 @@ function SpotifyWin({ win, lights }: { win: ComponentProps<"section">; lights: R
             <span style={{ width: "70%" }} />
           </div>
         </div>
+      </footer>
+    </section>
+  );
+}
+
+type Tok = [cls: string, text: string];
+
+/** Just enough highlighting for the two files in CODE_FILES: strings, comments, keywords, keys, headings. */
+function highlight(line: string, lang: "ts" | "md"): Tok[] {
+  if (lang === "md") {
+    if (line.startsWith("#")) return [["h", line]];
+    if (line.startsWith("- "))
+      return [
+        ["p", "- "],
+        ["", line.slice(2)],
+      ];
+    return [["", line]];
+  }
+  const out: Tok[] = [];
+  const re = /(\/\/.*$)|("[^"]*")|\b(const|export|default)\b|(\w+)(?=:)|(\w+)/g;
+  let last = 0;
+  for (const m of line.matchAll(re)) {
+    if (m.index > last) out.push(["p", line.slice(last, m.index)]);
+    out.push([m[1] ? "c" : m[2] ? "s" : m[3] ? "k" : m[4] ? "key" : "v", m[0]]);
+    last = m.index + m[0].length;
+  }
+  if (last < line.length) out.push(["p", line.slice(last)]);
+  return out;
+}
+
+function FileIcon({ lang }: { lang: "ts" | "md" }) {
+  return lang === "ts" ? <FileTs size={15} color="#3178c6" /> : <FileMd size={15} color="#5ea2e6" />;
+}
+
+/** VS Code-style editor showing a couple of "about me" files; click a file in the explorer or a tab to switch. */
+function CodeWin({ win, lights }: { win: ComponentProps<"section">; lights: ReactNode }) {
+  const [cur, setCur] = useState(0);
+  const file = CODE_FILES[cur];
+  const lines = file.code.split("\n");
+
+  return (
+    <section aria-label="Visual Studio Code" {...win} className={`${win.className} mac-code`}>
+      <div className="mac-code__bar">
+        {lights}
+        <span className="mac-code__title">{file.name} — portfolio</span>
+        <span style={{ width: 50, flex: "none" }} />
+      </div>
+      <div className="mac-win__split">
+        <nav className="mac-code__activity" aria-hidden="true">
+          <Files size={22} className="is-on" />
+          <MagnifyingGlass size={22} />
+          <GitBranch size={22} />
+          <Bug size={22} />
+          <PuzzlePiece size={22} />
+        </nav>
+        <aside className="mac-code__side">
+          <span className="mac-code__caption">EXPLORER</span>
+          <span className="mac-code__folder">⌄ PORTFOLIO</span>
+          {CODE_FILES.map((f, i) => (
+            <button
+              key={f.name}
+              type="button"
+              aria-pressed={i === cur}
+              className={i === cur ? "mac-code__file is-on" : "mac-code__file"}
+              onClick={() => setCur(i)}
+            >
+              <FileIcon lang={f.lang} />
+              {f.name}
+            </button>
+          ))}
+        </aside>
+        <div className="mac-code__main">
+          <div className="mac-code__tabs" role="tablist">
+            {CODE_FILES.map((f, i) => (
+              <button
+                key={f.name}
+                type="button"
+                role="tab"
+                aria-selected={i === cur}
+                className={i === cur ? "mac-code__tab is-on" : "mac-code__tab"}
+                onClick={() => setCur(i)}
+              >
+                <FileIcon lang={f.lang} />
+                {f.name}
+                <X size={12} className="mac-code__tab-x" />
+              </button>
+            ))}
+          </div>
+          <pre className="mac-code__editor" key={file.name}>
+            {lines.map((l, i) => (
+              <div key={i} className="mac-code__line">
+                <span className="mac-code__ln">{i + 1}</span>
+                <code>
+                  {highlight(l, file.lang).map(([c, t], j) =>
+                    c ? (
+                      <span key={j} className={`tk-${c}`}>
+                        {t}
+                      </span>
+                    ) : (
+                      t
+                    ),
+                  )}
+                  {i === lines.length - 1 && <span className="mac-code__caret blink" />}
+                </code>
+              </div>
+            ))}
+          </pre>
+        </div>
+      </div>
+      <footer className="mac-code__status">
+        <span>
+          <GitBranch size={12} /> main
+        </span>
+        <span>0 ⚠ 0 ✕</span>
+        <span style={{ flex: 1 }} />
+        <span>
+          Ln {lines.length}, Col {lines[lines.length - 1].length + 1}
+        </span>
+        <span>UTF-8</span>
+        <span>{file.lang === "ts" ? "TypeScript" : "Markdown"}</span>
       </footer>
     </section>
   );

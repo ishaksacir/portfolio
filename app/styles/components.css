@@ -59,6 +59,18 @@
   z-index: 50;
   border-bottom: 1px solid rgba(100, 110, 120, 0.12);
 }
+/* The navbar keeps a white tint and soft blur so the page scrolling under it stays quiet. */
+.nav.glass,
+.nav.glass[data-lg="svg"] {
+  background: var(
+    --lg-bg,
+    linear-gradient(180deg, rgba(252, 253, 254, 0.78) 0%, rgba(247, 249, 251, 0.66) 55%, rgba(244, 247, 250, 0.72) 100%)
+  );
+}
+.nav.glass[data-lg="svg"] {
+  -webkit-backdrop-filter: var(--lg-filter) blur(10px) saturate(1.6) brightness(1.04);
+  backdrop-filter: var(--lg-filter) blur(10px) saturate(1.6) brightness(1.04);
+}
 .nav__inner {
   max-width: 1440px;
   margin: 0 auto;
@@ -144,6 +156,55 @@
     0 0 0 0.5px #d0d5da,
     0 2px 8px rgba(30, 35, 40, 0.06);
 }
+/* Playground sits apart from the regular pages: amber, dashed, a little tilted. */
+.nav__play {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 8px;
+  border-radius: 7px;
+  border: 1px dashed rgba(209, 154, 61, 0.7);
+  background: rgba(209, 154, 61, 0.1);
+  color: #9a6a1c;
+  white-space: nowrap;
+  transform: rotate(-1.5deg);
+  transition:
+    background 0.2s,
+    color 0.2s,
+    transform 0.25s var(--ease);
+}
+.nav__play svg {
+  color: var(--amber);
+  transition: transform 0.4s var(--ease);
+}
+.nav__play:hover {
+  background: rgba(209, 154, 61, 0.18);
+  color: #7d5414;
+  text-decoration: none;
+  transform: rotate(0deg) translateY(-1px);
+}
+.nav__play:hover svg {
+  transform: rotate(90deg) scale(1.15);
+}
+.nav__play.is-active,
+.nav__play.is-active:hover {
+  border-style: solid;
+  border-color: var(--amber);
+  background: var(--amber);
+  color: #ffffff;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(209, 154, 61, 0.35);
+}
+.nav__play.is-active svg {
+  color: #ffffff;
+}
+.nav__sep {
+  flex: none;
+  width: 1px;
+  height: 16px;
+  margin: 0 2px;
+  background: var(--border-strong);
+}
 .nav__right {
   flex: none;
   display: flex;
@@ -190,7 +251,12 @@
   }
 }
 @media (max-width: 560px) {
+  .nav__play {
+    padding: 5px 7px;
+  }
+  .nav__play-label,
   .nav__clock,
+  .nav__sep,
   .nav__name {
     display: none;
   }
@@ -592,6 +658,26 @@
     linear-gradient(180deg, rgba(240, 243, 245, 0.22) 0%, rgba(240, 243, 245, 0.42) 60%, var(--bg-primary) 100%),
     var(--scene) center var(--scene-y, 50%) / cover no-repeat;
 }
+/* Softer variant: washes out the left (text) side so busy photos stay readable, keeps the scene visible on the right. */
+.scenic-header--soft {
+  background:
+    linear-gradient(180deg, transparent 55%, var(--bg-primary) 100%),
+    linear-gradient(
+      90deg,
+      rgba(240, 243, 245, 0.86) 0%,
+      rgba(240, 243, 245, 0.72) 40%,
+      rgba(240, 243, 245, 0.2) 70%,
+      rgba(240, 243, 245, 0.1) 100%
+    ),
+    var(--scene) center var(--scene-y, 50%) / cover no-repeat;
+}
+@media (max-width: 900px) {
+  .scenic-header--soft {
+    background:
+      linear-gradient(180deg, rgba(240, 243, 245, 0.78) 0%, rgba(240, 243, 245, 0.78) 60%, var(--bg-primary) 100%),
+      var(--scene) center var(--scene-y, 50%) / cover no-repeat;
+  }
+}
 .scenic-header__inner {
   max-width: 1180px;
   margin: 0 auto;
@@ -688,8 +774,21 @@
 }
 
 /* ─── Footer CTA + footer ────────────────────────────────────────────── */
-.cta {
-  border-top: 1px solid var(--border);
+/* A deeper-toned sheet with rounded top corners, so the page clearly ends here instead of
+   reading as one more section. It overlaps the page, so whatever is behind shows at the corners. */
+.theme-base.site-end {
+  --end-r: clamp(20px, 2.4cqw, 32px);
+  position: relative;
+  z-index: 10;
+  /* Pull up over the bottom of the page so ruled paper, columns, etc. run underneath the rounded corners. */
+  margin-top: calc(-1 * var(--end-r));
+  border-radius: var(--end-r) var(--end-r) 0 0;
+  background: linear-gradient(180deg, #e2e7ed 0%, #dbe1e8 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 -1px 0 rgba(20, 25, 30, 0.06),
+    0 -18px 48px rgba(20, 25, 30, 0.07);
+  overflow: hidden;
 }
 .cta__inner {
   max-width: 1200px;
@@ -724,7 +823,8 @@
 }
 
 .footer {
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(20, 25, 30, 0.08);
+  background: rgba(20, 25, 30, 0.035);
 }
 .footer__inner {
   max-width: 1200px;
