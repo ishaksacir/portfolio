@@ -239,7 +239,7 @@ export function Segmented<K extends string>({
   );
 }
 
-type Tone = "dark" | "green" | "blue" | "amber";
+type Tone = "dark" | "green";
 
 /** macOS notification banner: app icon, bold title, timestamp, one or two lines of body. Slides in on mount. */
 export function Notification({

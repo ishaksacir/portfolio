@@ -96,7 +96,7 @@ interface View {
   bottom: number;
 }
 
-export function TechText({
+function TechText({
   text = "React Bits",
   fontFamily = "",
   fontWeight = 600,

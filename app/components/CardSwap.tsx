@@ -123,7 +123,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(({ customClass, classN
 ));
 Card.displayName = "Card";
 
-export interface CardSwapItem {
+interface CardSwapItem {
   title?: string;
   image?: string;
   icon?: ReactNode;
@@ -153,7 +153,7 @@ export interface CardSwapHandle {
   prev: () => void;
 }
 
-export interface CardSwapProps {
+interface CardSwapProps {
   items?: CardSwapItem[];
   children?: ReactNode;
   width?: number;

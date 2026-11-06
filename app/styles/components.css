@@ -327,16 +327,6 @@
   background: var(--accent);
 }
 
-.chip-glass {
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.78);
-  font-family: var(--f-mono);
-  font-size: 11.5px;
-  color: var(--text-link);
-  white-space: nowrap;
-}
-
 /* ─── Window chrome ──────────────────────────────────────────────────── */
 .lights {
   display: flex;
@@ -619,12 +609,6 @@
 }
 .notify__icon--green {
   background: linear-gradient(180deg, #8fa37c, #5e6e50);
-}
-.notify__icon--blue {
-  background: linear-gradient(180deg, #7c9ad3, #4c6ba8);
-}
-.notify__icon--amber {
-  background: linear-gradient(180deg, #e9c27a, #c68e33);
 }
 .notify__text {
   flex: 1;
