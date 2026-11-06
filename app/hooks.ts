@@ -1,7 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 export const prefersReducedMotion = () =>
   typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+const MOBILE_QUERY = "(max-width: 767.98px)";
+const subscribeMobile = (onChange: () => void) => {
+  const mq = window.matchMedia(MOBILE_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+};
+
+/** True below 768px, where each route renders its composition from app/mobile/. */
+export function useIsMobile() {
+  return useSyncExternalStore(subscribeMobile, () => window.matchMedia(MOBILE_QUERY).matches);
+}
 
 /** Current time, re-rendered every second. */
 export function useNow() {

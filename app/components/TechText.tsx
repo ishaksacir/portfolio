@@ -721,7 +721,15 @@ export function TechText({
 }
 
 /** The blue, italic, letter-reveal treatment used for every emphasised word in the design. */
-export function Highlight({ text, letterSpacing = -0.02 }: { text: string; letterSpacing?: number }) {
+export function Highlight({
+  text,
+  letterSpacing = -0.02,
+  specks = 12,
+}: {
+  text: string;
+  letterSpacing?: number;
+  specks?: number;
+}) {
   return (
     <TechText
       text={text}
@@ -732,7 +740,7 @@ export function Highlight({ text, letterSpacing = -0.02 }: { text: string; lette
       color="#5B7DBF"
       accentColor="#3E5A8C"
       reveal="letter"
-      specks={12}
+      specks={specks}
       dashLength={4}
       dashGap={2}
     />

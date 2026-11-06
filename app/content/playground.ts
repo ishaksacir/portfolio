@@ -27,6 +27,14 @@ export const STATUS_COLOR: Record<Status, string> = {
   Abandoned: "#8A4232",
 };
 
+/** Tag backgrounds on the mobile cards, paired with STATUS_COLOR. */
+export const STATUS_TINT: Record<Status, string> = {
+  "In progress": "rgba(91,125,191,.14)",
+  Shelved: "rgba(209,154,61,.18)",
+  Someday: "rgba(90,127,122,.16)",
+  Abandoned: "rgba(184,92,74,.14)",
+};
+
 export const PLAYGROUND_INTRO = "Half-built ideas, weekend experiments and things I haven't given up on yet.";
 
 export const EXPERIMENTS: Experiment[] = [

@@ -166,14 +166,26 @@ export const NOW: { time: string; cal: Cal; icon: Icon; t: string; d: string; to
   },
 ];
 
+/** `bg` is the card colour in the mobile carousel. */
 export const PRINCIPLES = [
-  { n: "01", t: "Understand before building.", d: "Most bad software solves the wrong problem well." },
-  { n: "02", t: "Speed is a feature.", d: "Fast pages, fast feedback, small steps that ship." },
-  { n: "03", t: "Own the whole thing.", d: "Design, frontend, backend. Knowing every layer makes each one better." },
-  { n: "04", t: "Keep it a little weird.", d: "Useful first, but it should still feel like a person made it." },
+  { n: "01", bg: "#F3E4B8", t: "Understand before building.", d: "Most bad software solves the wrong problem well." },
+  { n: "02", bg: "#DCE4EF", t: "Speed is a feature.", d: "Fast pages, fast feedback, small steps that ship." },
+  {
+    n: "03",
+    bg: "#DDE5D3",
+    t: "Own the whole thing.",
+    d: "Design, frontend, backend. Knowing every layer makes each one better.",
+  },
+  {
+    n: "04",
+    bg: "#EFD9D3",
+    t: "Keep it a little weird.",
+    d: "Useful first, but it should still feel like a person made it.",
+  },
 ];
 
-const devicon = (p: string) => `https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${p}`;
+/** Self-hosted copies of devicon@2.16.0. */
+const devicon = (p: string) => `/images/tools/${p.split("/")[1]}`;
 export const TOOLS = [
   { name: "VS Code", src: devicon("vscode/vscode-original.svg") },
   { name: "Figma", src: devicon("figma/figma-original.svg") },

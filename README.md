@@ -24,8 +24,9 @@ app/
 ├── hooks.ts        small shared hooks (clock, typewriter, page title)
 ├── components/     shared UI: Navbar, Footer, Glass (liquid glass), TechText, ui.tsx building blocks
 ├── content/        all copy and data as typed objects, one file per page
+├── mobile/         the phone site (<768px): MobileApp.tsx (top bar, tab dock, routes), ui.tsx, pages/
 ├── pages/          one component per route
-└── styles/         plain CSS: global.css (fonts, tokens), components.css, one file per page
+└── styles/         plain CSS: global.css (fonts, tokens), components.css, mobile.css, one file per page
 public/
 ├── fonts/          self-hosted fonts (Clash Grotesk, JetBrains Mono, Jersey 10)
 └── images/         all images, as .webp
@@ -42,3 +43,6 @@ public/
   - divide viewport heights by the zoom: `calc(100vh / var(--z, 1))`;
   - in JS, `getBoundingClientRect()` and pointer coordinates are zoomed, while `offsetWidth`/`clientWidth` are not.
 - **Images** go in `public/images/` as `.webp`.
+- **Phones get their own composition.** Below 768px, `useIsMobile()` swaps the whole app for `app/mobile/`: same routes
+  and same `app/content/` data, different layout. Its classes are prefixed `m-` and live in `styles/mobile.css`, because
+  the desktop stylesheets stay loaded after a resize. Page changes usually need doing in both `pages/` and `mobile/pages/`.

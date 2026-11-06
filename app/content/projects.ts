@@ -440,3 +440,34 @@ export const THEMES: Record<string, Record<string, string>> = {
     "--rules": "repeating-linear-gradient(180deg,transparent 0 35px,rgba(28,31,39,.08) 35px 36px)",
   },
 };
+
+/** Mobile project pages theme the header only; the rest of the page stays on the base light theme. */
+export const MOBILE_THEMES: Record<
+  string,
+  { bg: string; fg: string; muted: string; acc: string; rule: string; chip: string }
+> = {
+  ghost: {
+    bg: "#1C1F27",
+    fg: "#F3F5F7",
+    muted: "#AAB1BC",
+    acc: "#7E9BD6",
+    rule: "rgba(255,255,255,.05)",
+    chip: "rgba(255,255,255,.08)",
+  },
+  dalga: {
+    bg: "#3E5A8C",
+    fg: "#F5F7FA",
+    muted: "#D5DDEA",
+    acc: "#F3E4B8",
+    rule: "rgba(255,255,255,.07)",
+    chip: "rgba(255,255,255,.12)",
+  },
+  portfolio: {
+    bg: "#D8B06A",
+    fg: "#1C1F27",
+    muted: "#4B402B",
+    acc: "#3E5A8C",
+    rule: "rgba(28,31,39,.08)",
+    chip: "rgba(255,255,255,.4)",
+  },
+};
